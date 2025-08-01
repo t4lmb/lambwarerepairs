@@ -314,6 +314,12 @@
             display: inline-block;
         }
 
+        .service-icon-inline {
+            font-size: 1.8rem;
+            color: var(--primary-red);
+            display: none;
+        }
+
         .service-info h3 {
             font-size: 2.2rem;
             margin-bottom: 1.5rem;
@@ -436,7 +442,10 @@
         }
 
         @media (max-width: 768px) {
-            .service-content, .service-content.reverse { grid-template-columns: 1fr; gap: 3rem; }
+            .service-content, .service-content.reverse { 
+                grid-template-columns: 1fr; 
+                gap: 3rem; 
+            }
             .service-features { grid-template-columns: 1fr; }
             .cta-buttons { flex-direction: column; align-items: center; }
             .btn { width: 100%; max-width: 300px; }
@@ -444,6 +453,24 @@
             .logo-icon { width: 32px; height: 32px; }
             .hero-services h1 { font-size: 2.5rem; }
             .service-info h3 { font-size: 2rem; }
+            
+            .service-visual { 
+                display: none; 
+            }
+            
+            .service-icon-inline {
+                display: inline-block; 
+            }
+            
+            .service-info h3 {
+                justify-content: center; 
+                text-align: center;
+                margin-bottom: 2rem;
+            }
+            
+            .service-info p {
+                text-align: center;
+            }
         }
 
         @media (max-width: 480px) {
