@@ -14,6 +14,7 @@
             opacity: 0;
         }
 
+        /* Loading Screen */
         .loading-screen {
             position: fixed;
             top: 0;
@@ -68,6 +69,7 @@
             transform: translateY(-110px);
         }
 
+        /* Logo pulsing animations for header and hero - logos only */
         .logo-icon path:last-child {
             animation: logoPulse 3s infinite ease-in-out;
         }
@@ -137,6 +139,7 @@
             padding: 0 24px;
         }
 
+        /* Header */
         header {
             background: var(--white);
             position: fixed;
@@ -300,6 +303,7 @@
             color: var(--white) !important;
         }
 
+        /* Hero Section */
         .hero-quote {
             background: var(--light-gray);
             padding: 120px 0 80px;
@@ -534,6 +538,7 @@
             margin: 0.5rem 0;
         }
 
+        /* Footer */
         footer {
             background: #1a1a1a;
             color: var(--white);
@@ -573,6 +578,7 @@
             color: #999;
         }
 
+        /* Mobile Responsive */
         @media (max-width: 1050px) {
             .nav-links {
                 display: none;
@@ -640,7 +646,7 @@
         }
     </style>
     <script>
-        // FOUC check
+        // FOUC check: Remove 'no-js' class as soon as JS is active
         document.documentElement.className = document.documentElement.className.replace('no-js', '');
     </script>
 </head>
@@ -886,18 +892,6 @@ The more detail you provide, the more accurate your quote will be."></textarea>
                                     <option value="No Preference">No preference</option>
                                 </select>
                             </div>
-                            <div class="form-group">
-                                <label for="budget">Estimated Budget Range</label>
-                                <select id="budget" name="budget">
-                                    <option value="">Select budget range</option>
-                                    <option value="Under $100">Under $100</option>
-                                    <option value="$100 - $250">$100 - $250</option>
-                                    <option value="$250 - $500">$250 - $500</option>
-                                    <option value="$500 - $1000">$500 - $1000</option>
-                                    <option value="Over $1000">Over $1000</option>
-                                    <option value="Not sure">Not sure</option>
-                                </select>
-                            </div>
                         </div>
                         <div class="form-group">
                             <label for="additionalNotes">Additional Notes or Questions</label>
@@ -942,6 +936,7 @@ The more detail you provide, the more accurate your quote will be."></textarea>
     </footer>
 
     <script>
+        // Loading screen
         window.addEventListener('load', function() {
             setTimeout(function() {
                 const loadingScreen = document.getElementById('loadingScreen');
@@ -950,7 +945,7 @@ The more detail you provide, the more accurate your quote will be."></textarea>
                 setTimeout(function() {
                     loadingScreen.style.display = 'none';
                 }, 500);
-            }, 3000);
+            }, 3000); // Adjust as desired
         });
 
         function toggleMobileMenu() {
@@ -958,6 +953,7 @@ The more detail you provide, the more accurate your quote will be."></textarea>
             mobileMenu.classList.toggle('active');
         }
 
+        // Smooth scrolling for anchor links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
@@ -971,6 +967,7 @@ The more detail you provide, the more accurate your quote will be."></textarea>
             });
         });
 
+        // Header scroll effect
         window.addEventListener('scroll', function() {
             const header = document.querySelector('header');
             if (window.scrollY > 100) {
@@ -982,6 +979,7 @@ The more detail you provide, the more accurate your quote will be."></textarea>
             }
         });
 
+        // Close mobile menu when clicking outside
         document.addEventListener('click', function(event) {
             const mobileMenu = document.getElementById('mobileMenu');
             const menuToggle = document.querySelector('.mobile-menu-toggle');
@@ -1025,7 +1023,6 @@ The more detail you provide, the more accurate your quote will be."></textarea>
                 previous_attempts: formData.get('previousAttempts') || 'None mentioned',
                 urgency: formData.get('urgency') || 'Not specified',
                 service_location: formData.get('serviceLocation') || 'Not specified',
-                budget: formData.get('budget') || 'Not specified',
                 additional_notes: formData.get('additionalNotes') || 'None',
                 submit_date: new Date().toLocaleString()
             };
@@ -1082,7 +1079,6 @@ The more detail you provide, the more accurate your quote will be."></textarea>
         TIMELINE & PREFERENCES:
         Urgency: ${templateParams.urgency}
         Service Location: ${templateParams.service_location}
-        Budget Range: ${templateParams.budget}
 
         ADDITIONAL NOTES:
         ${templateParams.additional_notes}
