@@ -1,1194 +1,1511 @@
 <!DOCTYPE html>
 <html lang="en" class="no-js">
-<head>
+  <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lambware Repairs - Professional Tech Services</title>
     <link rel="icon" type="image/svg+xml" href="Favicon Transparent.ico">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        /* FOUC Prevention */
-        html.no-js body {
-            visibility: hidden;
-            opacity: 0;
+      /* FOUC Prevention */
+      html.no-js body {
+        visibility: hidden;
+        opacity: 0;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      header.scrolled {
+        background: rgba(255, 255, 255, 0.8) !important;
+        backdrop-filter: blur(10px);
+        border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+      }
+
+      .loading-screen {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: #000000;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 9999;
+        transition: opacity 0.5s ease-out;
+      }
+
+      .loading-screen.fade-out {
+        opacity: 0;
+        pointer-events: none;
+      }
+
+      .loader-container {
+        text-align: center;
+        color: white;
+      }
+
+      .lambware-loader {
+        width: 880px;
+        height: auto;
+        margin: 0 auto 2rem;
+        padding: 66px;
+        overflow: visible;
+        border: none;
+      }
+
+      .lambware-loader svg {
+        overflow: visible;
+      }
+
+      .lambware-loader .red-part {
+        animation: redPulse 2s infinite;
+        transform-origin: center;
+        overflow: visible;
+      }
+
+      .loading-text {
+        font-size: 1.5rem;
+        margin-bottom: 1.5rem;
+        opacity: 0.7;
+        font-weight: 400;
+        font-family: 'Montserrat', sans-serif;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        transform: translateY(-110px);
+      }
+
+      .logo-icon path:last-child {
+        animation: logoPulse 3s infinite ease-in-out;
+      }
+
+      .hero-logo-svg svg:first-of-type path:last-child {
+        animation: logoPulse 3s infinite ease-in-out;
+      }
+
+      @keyframes logoPulse {
+
+        0%,
+        100% {
+          fill: #DE3A3A;
         }
 
-        .loading-screen {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: #000000;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 9999;
-            transition: opacity 0.5s ease-out;
+        50% {
+          fill: #FF6B6B;
+        }
+      }
+
+      .loading-bar {
+        width: 200px;
+        height: 4px;
+        background: rgba(255, 255, 255, 0.3);
+        border-radius: 2px;
+        overflow: hidden;
+        margin: 0 auto;
+        transform: translateY(-120px);
+        opacity: 0.8;
+      }
+
+      .loading-progress {
+        height: 100%;
+        background: white;
+        border-radius: 2px;
+        animation: loadProgress 3s ease-out forwards;
+      }
+
+      @keyframes redPulse {
+
+        0%,
+        100% {
+          opacity: 1;
+          transform: scale(1);
         }
 
-        .loading-screen.fade-out {
-            opacity: 0;
-            pointer-events: none;
+        50% {
+          opacity: 0.7;
+          transform: scale(1.05);
+        }
+      }
+
+      @keyframes loadProgress {
+        0% {
+          width: 0%;
         }
 
-        .loader-container {
-            text-align: center;
-            color: white;
-            
+        100% {
+          width: 100%;
         }
+      }
 
-        .lambware-loader {
-            width: 880px;
-            height: auto;
-            margin: 0 auto 2rem;
-            padding: 66px;
-            overflow: visible;
-            border: none;
-        }
+      :root {
+        --primary-red: #DE3A3A;
+        --dark-red: #B12E2E;
+        --light-gray: #F8F9FA;
+        --medium-gray: #6C757D;
+        --dark-gray: #343A40;
+        --white: #FFFFFF;
+        --shadow-light: 0 2px 10px rgba(0, 0, 0, 0.1);
+        --shadow-medium: 0 4px 20px rgba(0, 0, 0, 0.15);
+        --shadow-heavy: 0 8px 30px rgba(0, 0, 0, 0.2);
+      }
 
-        .lambware-loader svg {
-            overflow: visible;
-        }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
 
-        .lambware-loader .red-part {
-            animation: redPulse 2s infinite;
-            transform-origin: center;
-            overflow: visible;
-        }
+      body {
+        font-family: 'Montserrat', sans-serif;
+        line-height: 1.6;
+        color: var(--dark-gray);
+        background: var(--white);
+        overflow-x: hidden;
+      }
 
-        .loading-text {
-            font-size: 1.5rem;
-            margin-bottom: 1.5rem;
-            opacity: 0.7;
-            font-weight: 400;
-            font-family: 'Montserrat', sans-serif;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            transform: translateY(-110px);
-        }
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 24px;
+      }
 
-        .logo-icon path:last-child {
-            animation: logoPulse 3s infinite ease-in-out;
-        }
+      header {
+        background: var(--white);
+        position: fixed;
+        width: 100%;
+        top: 0;
+        z-index: 1000;
+        box-shadow: var(--shadow-light);
+        transition: all 0.3s ease;
+        min-height: 80px;
+        display: flex;
+        align-items: center;
+      }
 
-        .hero-logo-svg svg:first-of-type path:last-child {
-            animation: logoPulse 3s infinite ease-in-out;
-        }
+      nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        text-transform: uppercase;
+      }
 
-        @keyframes logoPulse {
-            0%, 100% { fill: #DE3A3A; }
-            50% { fill: #FF6B6B; }
-        }
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        text-decoration: none;
+        color: var(--dark-gray);
+      }
 
-        .loading-bar {
-            width: 200px;
-            height: 4px;
-            background: rgba(255,255,255,0.3);
-            border-radius: 2px;
-            overflow: hidden;
-            margin: 0 auto;
-            transform: translateY(-120px);
-            opacity: 0.8;
-        }
+      .logo-icon {
+        width: 36px;
+        height: 36px;
+      }
 
-        .loading-progress {
-            height: 100%;
-            background: white;
-            border-radius: 2px;
-            animation: loadProgress 3s ease-out forwards;
-        }
+      .logo-text {
+        font-size: 24px;
+        font-weight: 400;
+        letter-spacing: 0.08em;
+      }
 
-        @keyframes redPulse {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.7; transform: scale(1.05); }
-        }
+      .nav-links {
+        display: flex;
+        list-style: none;
+        gap: 32px;
+        align-items: center;
+      }
 
-        @keyframes loadProgress {
-            0% { width: 0%; }
-            100% { width: 100%; }
-        }
+      .nav-links a {
+        color: var(--dark-gray);
+        text-decoration: none;
+        font-weight: 400;
+        font-size: 16px;
+        transition: color 0.3s ease;
+        position: relative;
+      }
 
-        :root {
-            --primary-red: #DE3A3A;
-            --dark-red: #B12E2E;
-            --light-gray: #F8F9FA;
-            --medium-gray: #6C757D;
-            --dark-gray: #343A40;
-            --white: #FFFFFF;
-            --shadow-light: 0 2px 10px rgba(0,0,0,0.1);
-            --shadow-medium: 0 4px 20px rgba(0,0,0,0.15);
-            --shadow-heavy: 0 8px 30px rgba(0,0,0,0.2);
-        }
+      .nav-links a:hover {
+        color: var(--primary-red);
+      }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+      .nav-links a::after {
+        content: '';
+        position: absolute;
+        bottom: -4px;
+        left: 0;
+        width: 0;
+        height: 2px;
+        background: var(--primary-red);
+        transition: width 0.3s ease;
+      }
 
-        body {
-            font-family: 'Montserrat', sans-serif;
-            line-height: 1.6;
-            color: var(--dark-gray);
-            background: var(--white);
-            overflow-x: hidden;
-        }
+      .nav-links a:hover::after {
+        width: 100%;
+      }
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 24px;
-        }
+      .cta-nav {
+        background: var(--primary-red);
+        color: var(--white) !important;
+        padding: 12px 24px;
+        border-radius: 8px;
+        font-weight: 400;
+        transition: all 0.3s ease;
+        white-space: nowrap;
+      }
 
-        header {
-            background: var(--white);
-            position: fixed;
-            width: 100%;
-            top: 0;
-            z-index: 1000;
-            box-shadow: var(--shadow-light);
-            transition: all 0.3s ease;
-            min-height: 80px;
-            display: flex;
-            align-items: center;
-        }
+      .cta-nav:hover {
+        background: var(--dark-red);
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-medium);
+      }
 
-        nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            width: 100%;
-            text-transform: uppercase;
-        }
+      .cta-nav::after {
+        display: none;
+      }
 
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            text-decoration: none;
-            color: var(--dark-gray);
-        }
+      .mobile-menu-toggle {
+        display: none;
+        background: none;
+        border: none;
+        font-size: 24px;
+        cursor: pointer;
+        color: var(--dark-gray);
+      }
 
-        .logo-icon {
-            width: 36px;
-            height: 36px;
-        }
+      .mobile-menu {
+        display: none;
+        position: fixed;
+        top: 80px;
+        left: 0;
+        width: 100%;
+        background: var(--white);
+        box-shadow: var(--shadow-medium);
+        z-index: 999;
+        padding: 20px 0;
+      }
 
-        .logo-text {
-            font-size: 24px;
-            font-weight: 400;
-            letter-spacing: 0.08em;
-        }
+      .mobile-menu.active {
+        display: block;
+      }
 
+      .mobile-menu ul {
+        list-style: none;
+        text-align: center;
+      }
+
+      .mobile-menu li {
+        margin: 16px 0;
+      }
+
+      .mobile-menu a {
+        color: var(--dark-gray);
+        text-decoration: none;
+        font-size: 18px;
+        font-weight: 400;
+        text-transform: uppercase;
+      }
+
+      .mobile-menu a.mobile-cta-btn {
+        background: transparent;
+        color: var(--primary-red) !important;
+        border: 2px solid var(--primary-red);
+        padding: 12px 24px;
+        border-radius: 8px;
+        margin: 8px auto;
+        display: inline-block;
+        width: auto;
+        max-width: 200px;
+        transition: all 0.3s ease;
+      }
+
+      .mobile-menu a.mobile-cta-btn:hover {
+        background: var(--primary-red);
+        color: var(--white) !important;
+      }
+
+      .hero {
+        background: var(--white);
+        padding: 0 0 100px 0;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        position: relative;
+        overflow: hidden;
+        padding-top: 80px;
+      }
+
+      .hero-content-wrapper {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        max-width: 800px;
+        margin: 0 auto;
+        text-align: center;
+      }
+
+      .hero-logo-section {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: #000000;
+        padding: 4px 0;
+        margin-bottom: 60px;
+        margin-top: -30px;
+        width: 100vw;
+        margin-left: calc(-50vw + 50%);
+        margin-right: calc(-50vw + 50%);
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+      }
+
+      .hero-logo-svg {
+        width: 100%;
+        max-width: 600px;
+        height: auto;
+        background: transparent;
+      }
+
+      .hero-content {
+        position: relative;
+        z-index: 2;
+        max-width: 700px;
+      }
+
+      .hero h1 {
+        font-size: 3.5rem;
+        font-weight: 400;
+        margin-bottom: 24px;
+        line-height: 1.1;
+        color: var(--dark-gray);
+      }
+
+      .hero .highlight {
+        color: var(--primary-red);
+      }
+
+      .hero p {
+        font-size: 1.2rem;
+        margin-bottom: 32px;
+        color: var(--medium-gray);
+        line-height: 1.7;
+      }
+
+      .cta-buttons {
+        display: flex;
+        gap: 16px;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 16px 32px;
+        border-radius: 8px;
+        text-decoration: none;
+        font-weight: 400;
+        font-size: 16px;
+        transition: all 0.3s ease;
+        min-height: 56px;
+        cursor: pointer;
+        border: none;
+        position: relative;
+        overflow: hidden;
+        transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.3s ease;
+      }
+
+      .btn:active {
+        transform: scale(0.96);
+      }
+
+      .btn::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(120deg,
+            transparent,
+            rgba(255, 255, 255, 0.2),
+            transparent);
+        transition: all 0.6s;
+      }
+
+      .btn:hover::before {
+        left: 100%;
+      }
+
+      .btn-primary {
+        background: var(--primary-red);
+        color: var(--white);
+      }
+
+      .btn-primary:hover {
+        background: var(--dark-red);
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-medium);
+      }
+
+      .btn-secondary {
+        background: transparent;
+        color: var(--dark-gray);
+        border: 2px solid var(--dark-gray);
+      }
+
+      .btn-secondary:hover {
+        background: var(--dark-gray);
+        color: var(--white);
+      }
+
+      .stats {
+        padding: 80px 0;
+        background: var(--white);
+      }
+
+      .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 40px;
+      }
+
+      .stat-item {
+        text-align: center;
+        padding: 32px 24px;
+        background: var(--light-gray);
+        border-radius: 16px;
+        transition: transform 0.3s ease;
+      }
+
+      .stat-item:hover {
+        transform: translateY(-8px);
+      }
+
+      .stat-number {
+        font-size: 3rem;
+        font-weight: 700;
+        color: var(--primary-red);
+        display: block;
+        margin-bottom: 8px;
+      }
+
+      .stat-label {
+        font-size: 16px;
+        color: var(--medium-gray);
+        font-weight: 500;
+      }
+
+      .process-steps {
+        padding: 100px 0;
+        background: var(--light-gray);
+      }
+
+      .steps-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 32px;
+        margin-top: 64px;
+      }
+
+      .step-card {
+        background: var(--white);
+        padding: 40px 32px;
+        border-radius: 16px;
+        box-shadow: var(--shadow-light);
+        transition: all 0.3s ease;
+        border-top: 4px solid var(--primary-red);
+        text-align: center;
+      }
+
+      .step-card:hover {
+        transform: translateY(-8px);
+        box-shadow: var(--shadow-medium);
+      }
+
+      .step-number {
+        width: 64px;
+        height: 64px;
+        background: var(--primary-red);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 24px;
+        font-weight: 600;
+        color: var(--white);
+        margin: 0 auto 24px;
+      }
+
+      .step-card h3 {
+        font-size: 1.5rem;
+        font-weight: 500;
+        margin-bottom: 16px;
+        color: var(--dark-gray);
+      }
+
+      .step-card p {
+        color: var(--medium-gray);
+        line-height: 1.6;
+      }
+
+      .services {
+        padding: 100px 0;
+        background: var(--white);
+      }
+
+      .section-header {
+        text-align: center;
+        margin-bottom: 64px;
+      }
+
+      .section-title {
+        font-size: 2.5rem;
+        font-weight: 400;
+        margin-bottom: 16px;
+        color: var(--dark-gray);
+      }
+
+      .section-subtitle {
+        font-size: 1.125rem;
+        color: var(--medium-gray);
+        max-width: 600px;
+        margin: 0 auto;
+      }
+
+      .services-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+        gap: 32px;
+      }
+
+      .service-card {
+        background: var(--white);
+        padding: 40px 32px;
+        border-radius: 16px;
+        box-shadow: var(--shadow-light);
+        transition: all 0.3s ease;
+        border-top: 4px solid var(--primary-red);
+      }
+
+      .service-card:hover {
+        transform: translateY(-8px);
+        box-shadow: var(--shadow-medium);
+      }
+
+      .service-icon {
+        width: 64px;
+        height: 64px;
+        background: rgba(222, 58, 58, 0.1);
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 24px;
+        margin-bottom: 24px;
+        color: var(--primary-red);
+      }
+
+      .service-card h3 {
+        font-size: 1.5rem;
+        font-weight: 400;
+        margin-bottom: 16px;
+        color: var(--dark-gray);
+      }
+
+      .service-card p {
+        color: var(--medium-gray);
+        margin-bottom: 24px;
+        line-height: 1.6;
+      }
+
+      .service-features {
+        list-style: none;
+      }
+
+      .service-features li {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 8px;
+        color: var(--medium-gray);
+      }
+
+      .service-features li::before {
+        content: '✓';
+        color: var(--primary-red);
+        font-weight: 600;
+        width: 16px;
+      }
+
+      .why-choose {
+        padding: 100px 0;
+        background: var(--light-gray);
+      }
+
+      .benefits-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 32px;
+        margin-top: 64px;
+      }
+
+      .benefit-card {
+        background: var(--white);
+        padding: 32px 24px;
+        border-radius: 16px;
+        box-shadow: var(--shadow-light);
+        transition: all 0.3s ease;
+        text-align: center;
+      }
+
+      .benefit-card:hover {
+        transform: translateY(-8px);
+        box-shadow: var(--shadow-medium);
+      }
+
+      .benefit-icon {
+        width: 56px;
+        height: 56px;
+        background: rgba(222, 58, 58, 0.1);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 20px;
+        margin: 0 auto 20px;
+        color: var(--primary-red);
+      }
+
+      .benefit-card h4 {
+        font-size: 1.25rem;
+        font-weight: 500;
+        margin-bottom: 12px;
+        color: var(--dark-gray);
+      }
+
+      .benefit-card p {
+        color: var(--medium-gray);
+        line-height: 1.5;
+        font-size: 0.95rem;
+      }
+
+      .about {
+        padding: 100px 0;
+        background: var(--white);
+      }
+
+      .about-content {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 64px;
+        align-items: center;
+      }
+
+      .about-text h3 {
+        font-size: 2rem;
+        font-weight: 400;
+        margin-bottom: 24px;
+        color: var(--primary-red);
+      }
+
+      .about-text p {
+        color: var(--medium-gray);
+        margin-bottom: 24px;
+        line-height: 1.7;
+      }
+
+      .about-image {
+        background: var(--light-gray);
+        border-radius: 16px;
+        height: 400px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 4rem;
+        color: var(--medium-gray);
+      }
+
+      .cta-section {
+        padding: 100px 0;
+        background: linear-gradient(135deg, var(--dark-gray) 0%, #212529 100%);
+        color: var(--white);
+        text-align: center;
+      }
+
+      .cta-section h2 {
+        font-size: 2.5rem;
+        font-weight: 400;
+        margin-bottom: 16px;
+      }
+
+      .cta-section p {
+        font-size: 1.125rem;
+        margin-bottom: 32px;
+        opacity: 0.9;
+      }
+
+      .cta-contact-btn {
+        background: var(--white);
+        color: var(--dark-gray) !important;
+        border: 2px solid var(--white);
+        font-weight: 500;
+      }
+
+      .cta-contact-btn:hover {
+        background: transparent;
+        color: var(--white) !important;
+        border-color: var(--white);
+      }
+
+      footer {
+        background: #1a1a1a;
+        color: var(--white);
+        padding: 40px 0;
+        text-align: center;
+      }
+
+      .footer-content {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 32px;
+        margin-bottom: 32px;
+      }
+
+      .footer-section h4 {
+        font-size: 1.125rem;
+        font-weight: 400;
+        margin-bottom: 16px;
+        color: var(--primary-red);
+      }
+
+      .footer-section p,
+      .footer-section a {
+        color: #CCCCCC;
+        text-decoration: none;
+        margin-bottom: 8px;
+        display: block;
+      }
+
+      .footer-section a:hover {
+        color: var(--primary-red);
+      }
+
+      .footer-bottom {
+        border-top: 1px solid #333;
+        padding-top: 24px;
+        color: #999;
+      }
+
+      @media (max-width: 1050px) {
         .nav-links {
-            display: flex;
-            list-style: none;
-            gap: 32px;
-            align-items: center;
-        }
-
-        .nav-links a {
-            color: var(--dark-gray);
-            text-decoration: none;
-            font-weight: 400;
-            font-size: 16px;
-            transition: color 0.3s ease;
-            position: relative;
-        }
-
-        .nav-links a:hover {
-            color: var(--primary-red);
-        }
-
-        .nav-links a::after {
-            content: '';
-            position: absolute;
-            bottom: -4px;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: var(--primary-red);
-            transition: width 0.3s ease;
-        }
-
-        .nav-links a:hover::after {
-            width: 100%;
-        }
-
-        .cta-nav {
-            background: var(--primary-red);
-            color: var(--white) !important;
-            padding: 12px 24px;
-            border-radius: 8px;
-            font-weight: 400;
-            transition: all 0.3s ease;
-            white-space: nowrap;
-        }
-
-        .cta-nav:hover {
-            background: var(--dark-red);
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-medium);
-        }
-
-        .cta-nav::after {
-            display: none;
+          display: none;
         }
 
         .mobile-menu-toggle {
-            display: none;
-            background: none;
-            border: none;
-            font-size: 24px;
-            cursor: pointer;
-            color: var(--dark-gray);
+          display: block;
         }
+      }
 
-        .mobile-menu {
-            display: none;
-            position: fixed;
-            top: 80px;
-            left: 0;
-            width: 100%;
-            background: var(--white);
-            box-shadow: var(--shadow-medium);
-            z-index: 999;
-            padding: 20px 0;
-        }
-
-        .mobile-menu.active {
-            display: block;
-        }
-
-        .mobile-menu ul {
-            list-style: none;
-            text-align: center;
-        }
-
-        .mobile-menu li {
-            margin: 16px 0;
-        }
-
-        .mobile-menu a {
-            color: var(--dark-gray);
-            text-decoration: none;
-            font-size: 18px;
-            font-weight: 400;
-            text-transform: uppercase;
-        }
-
-        .mobile-menu a.mobile-cta-btn {
-            background: transparent;
-            color: var(--primary-red) !important;
-            border: 2px solid var(--primary-red);
-            padding: 12px 24px;
-            border-radius: 8px;
-            margin: 8px auto;
-            display: inline-block;
-            width: auto;
-            max-width: 200px;
-            transition: all 0.3s ease;
-        }
-
-        .mobile-menu a.mobile-cta-btn:hover {
-            background: var(--primary-red);
-            color: var(--white) !important;
+      @media (max-width: 768px) {
+        .mobile-menu-toggle {
+          display: block;
         }
 
         .hero {
-            background: var(--white);
-            padding: 0 0 100px 0;
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            position: relative;
-            overflow: hidden;
-            padding-top: 80px;
-        }
-
-        .hero-content-wrapper {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            width: 100%;
-            max-width: 800px;
-            margin: 0 auto;
-            text-align: center;
-        }
-
-        .hero-logo-section {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background: #000000;
-            padding: 4px 0;
-            margin-bottom: 60px;
-            margin-top: -30px;
-            width: 100vw;
-            margin-left: calc(-50vw + 50%);
-            margin-right: calc(-50vw + 50%);
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
-        }
-
-        .hero-logo-svg {
-            width: 100%;
-            max-width: 600px;
-            height: auto;
-            background: transparent;
-        }
-
-        .hero-content {
-            position: relative;
-            z-index: 2;
-            max-width: 700px;
+          padding: 120px 0 80px;
+          padding-top: 80px;
         }
 
         .hero h1 {
-            font-size: 3.5rem;
-            font-weight: 400;
-            margin-bottom: 24px;
-            line-height: 1.1;
-            color: var(--dark-gray);
-        }
-
-        .hero .highlight {
-            color: var(--primary-red);
-        }
-
-        .hero p {
-            font-size: 1.2rem;
-            margin-bottom: 32px;
-            color: var(--medium-gray);
-            line-height: 1.7;
-        }
-
-        .cta-buttons {
-            display: flex;
-            gap: 16px;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-
-        .btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            padding: 16px 32px;
-            border-radius: 8px;
-            text-decoration: none;
-            font-weight: 400;
-            font-size: 16px;
-            transition: all 0.3s ease;
-            min-height: 56px;
-            cursor: pointer;
-            border: none;
-        }
-
-        .btn-primary {
-            background: var(--primary-red);
-            color: var(--white);
-        }
-
-        .btn-primary:hover {
-            background: var(--dark-red);
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-medium);
-        }
-
-        .btn-secondary {
-            background: transparent;
-            color: var(--dark-gray);
-            border: 2px solid var(--dark-gray);
-        }
-
-        .btn-secondary:hover {
-            background: var(--dark-gray);
-            color: var(--white);
-        }
-
-        .stats {
-            padding: 80px 0;
-            background: var(--white);
-        }
-
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 40px;
-        }
-
-        .stat-item {
-            text-align: center;
-            padding: 32px 24px;
-            background: var(--light-gray);
-            border-radius: 16px;
-            transition: transform 0.3s ease;
-        }
-
-        .stat-item:hover {
-            transform: translateY(-8px);
-        }
-
-        .stat-number {
-            font-size: 3rem;
-            font-weight: 700;
-            color: var(--primary-red);
-            display: block;
-            margin-bottom: 8px;
-        }
-
-        .stat-label {
-            font-size: 16px;
-            color: var(--medium-gray);
-            font-weight: 500;
-        }
-
-        .process-steps {
-            padding: 100px 0;
-            background: var(--light-gray);
-        }
-
-        .steps-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 32px;
-            margin-top: 64px;
-        }
-
-        .step-card {
-            background: var(--white);
-            padding: 40px 32px;
-            border-radius: 16px;
-            box-shadow: var(--shadow-light);
-            transition: all 0.3s ease;
-            border-top: 4px solid var(--primary-red);
-            text-align: center;
-        }
-
-        .step-card:hover {
-            transform: translateY(-8px);
-            box-shadow: var(--shadow-medium);
-        }
-
-        .step-number {
-            width: 64px;
-            height: 64px;
-            background: var(--primary-red);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 24px;
-            font-weight: 600;
-            color: var(--white);
-            margin: 0 auto 24px;
-        }
-
-        .step-card h3 {
-            font-size: 1.5rem;
-            font-weight: 500;
-            margin-bottom: 16px;
-            color: var(--dark-gray);
-        }
-
-        .step-card p {
-            color: var(--medium-gray);
-            line-height: 1.6;
-        }
-
-        .services {
-            padding: 100px 0;
-            background: var(--white);
-        }
-
-        .section-header {
-            text-align: center;
-            margin-bottom: 64px;
-        }
-
-        .section-title {
-            font-size: 2.5rem;
-            font-weight: 400;
-            margin-bottom: 16px;
-            color: var(--dark-gray);
-        }
-
-        .section-subtitle {
-            font-size: 1.125rem;
-            color: var(--medium-gray);
-            max-width: 600px;
-            margin: 0 auto;
-        }
-
-        .services-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 32px;
-        }
-
-        .service-card {
-            background: var(--white);
-            padding: 40px 32px;
-            border-radius: 16px;
-            box-shadow: var(--shadow-light);
-            transition: all 0.3s ease;
-            border-top: 4px solid var(--primary-red);
-        }
-
-        .service-card:hover {
-            transform: translateY(-8px);
-            box-shadow: var(--shadow-medium);
-        }
-
-        .service-icon {
-            width: 64px;
-            height: 64px;
-            background: rgba(222, 58, 58, 0.1);
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 24px;
-            margin-bottom: 24px;
-            color: var(--primary-red);
-        }
-
-        .service-card h3 {
-            font-size: 1.5rem;
-            font-weight: 400;
-            margin-bottom: 16px;
-            color: var(--dark-gray);
-        }
-
-        .service-card p {
-            color: var(--medium-gray);
-            margin-bottom: 24px;
-            line-height: 1.6;
-        }
-
-        .service-features {
-            list-style: none;
-        }
-
-        .service-features li {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 8px;
-            color: var(--medium-gray);
-        }
-
-        .service-features li::before {
-            content: '✓';
-            color: var(--primary-red);
-            font-weight: 600;
-            width: 16px;
-        }
-
-        .why-choose {
-            padding: 100px 0;
-            background: var(--light-gray);
-        }
-
-        .benefits-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 32px;
-            margin-top: 64px;
-        }
-
-        .benefit-card {
-            background: var(--white);
-            padding: 32px 24px;
-            border-radius: 16px;
-            box-shadow: var(--shadow-light);
-            transition: all 0.3s ease;
-            text-align: center;
-        }
-
-        .benefit-card:hover {
-            transform: translateY(-8px);
-            box-shadow: var(--shadow-medium);
-        }
-
-        .benefit-icon {
-            width: 56px;
-            height: 56px;
-            background: rgba(222, 58, 58, 0.1);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 20px;
-            margin: 0 auto 20px;
-            color: var(--primary-red);
-        }
-
-        .benefit-card h4 {
-            font-size: 1.25rem;
-            font-weight: 500;
-            margin-bottom: 12px;
-            color: var(--dark-gray);
-        }
-
-        .benefit-card p {
-            color: var(--medium-gray);
-            line-height: 1.5;
-            font-size: 0.95rem;
-        }
-
-        .about {
-            padding: 100px 0;
-            background: var(--white);
+          font-size: 2.5rem;
         }
 
         .about-content {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 64px;
-            align-items: center;
-        }
-
-        .about-text h3 {
-            font-size: 2rem;
-            font-weight: 400;
-            margin-bottom: 24px;
-            color: var(--primary-red);
-        }
-
-        .about-text p {
-            color: var(--medium-gray);
-            margin-bottom: 24px;
-            line-height: 1.7;
+          grid-template-columns: 1fr;
+          gap: 40px;
         }
 
         .about-image {
-            background: var(--light-gray);
-            border-radius: 16px;
-            height: 400px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 4rem;
-            color: var(--medium-gray);
+          height: 300px;
         }
 
-        .cta-section {
-            padding: 100px 0;
-            background: linear-gradient(135deg, var(--dark-gray) 0%, #212529 100%);
-            color: var(--white);
-            text-align: center;
+        .services-grid {
+          grid-template-columns: 1fr;
         }
 
-        .cta-section h2 {
-            font-size: 2.5rem;
-            font-weight: 400;
-            margin-bottom: 16px;
+        .steps-grid {
+          grid-template-columns: 1fr;
         }
 
-        .cta-section p {
-            font-size: 1.125rem;
-            margin-bottom: 32px;
-            opacity: 0.9;
+        .benefits-grid {
+          grid-template-columns: 1fr;
         }
 
-        .cta-contact-btn {
-            background: var(--white);
-            color: var(--dark-gray) !important;
-            border: 2px solid var(--white);
-            font-weight: 500;
+        .cta-buttons {
+          flex-direction: column;
+          align-items: center;
         }
 
-        .cta-contact-btn:hover {
-            background: transparent;
-            color: var(--white) !important;
-            border-color: var(--white);
+        .btn {
+          width: 100%;
+          max-width: 300px;
         }
 
-        footer {
-            background: #1a1a1a;
-            color: var(--white);
-            padding: 40px 0;
-            text-align: center;
+        .logo-text {
+          font-size: 20px;
         }
 
-        .footer-content {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 32px;
-            margin-bottom: 32px;
+        .logo-icon {
+          width: 32px;
+          height: 32px;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .container {
+          padding: 0 16px;
         }
 
-        .footer-section h4 {
-            font-size: 1.125rem;
-            font-weight: 400;
-            margin-bottom: 16px;
-            color: var(--primary-red);
+        .hero h1 {
+          font-size: 2rem;
         }
 
-        .footer-section p,
-        .footer-section a {
-            color: #CCCCCC;
-            text-decoration: none;
-            margin-bottom: 8px;
-            display: block;
+        .section-title {
+          font-size: 2rem;
         }
 
-        .footer-section a:hover {
-            color: var(--primary-red);
+        .logo-text {
+          font-size: 18px;
         }
+      }
 
-        .footer-bottom {
-            border-top: 1px solid #333;
-            padding-top: 24px;
-            color: #999;
+      .hero::before,
+      .hero-services::before,
+      .hero-quote::before {
+        content: '';
+        position: absolute;
+        width: 400px;
+        height: 400px;
+        background: radial-gradient(circle, rgba(222, 58, 58, 0.05) 0%, rgba(255, 255, 255, 0) 70%);
+        top: -100px;
+        left: -150px;
+        border-radius: 50%;
+        z-index: 1;
+        pointer-events: none;
+      }
+
+      .hero::after,
+      .hero-services::after,
+      .hero-quote::after {
+        content: '';
+        position: absolute;
+        width: 500px;
+        height: 500px;
+        background: radial-gradient(circle, rgba(222, 58, 58, 0.03) 0%, rgba(255, 255, 255, 0) 70%);
+        bottom: -100px;
+        right: -200px;
+        border-radius: 50%;
+        z-index: 1;
+        pointer-events: none;
+      }
+
+      .step-card,
+      .service-detail,
+      .stat-item {
+        transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .step-card:hover,
+      .stat-item:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 20px 40px rgba(222, 58, 58, 0.1) !important;
+        border-top-color: var(--dark-red);
+      }
+
+      .process-steps,
+      .quote-form-section {
+        background-image: radial-gradient(#DE3A3A 0.5px, transparent 0.5px);
+        background-size: 30px 30px;
+        background-color: #F8F9FA;
+        opacity: 0.9;
+      }
+     
+      .side-nav-dots {
+        position: fixed;
+        right: 30px;
+        top: 50%;
+        transform: translateY(-50%);
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        z-index: 2000;
+      }
+
+      .dot {
+        width: 12px;
+        height: 12px;
+        background: rgba(0, 0, 0, 0.2);
+        border-radius: 50%;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        position: relative;
+      }
+
+      .dot:hover {
+        background: var(--primary-red);
+        transform: scale(1.2);
+      }
+
+      .dot.active {
+        background: var(--primary-red);
+        transform: scale(1.3);
+      }
+
+      .dot::after {
+        content: attr(data-label);
+        position: absolute;
+        right: 25px;
+        top: 50%;
+        transform: translateY(-50%);
+        background: var(--dark-gray);
+        color: white;
+        padding: 4px 10px;
+        border-radius: 4px;
+        font-size: 12px;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.3s ease;
+        white-space: nowrap;
+      }
+
+      .dot:hover::after {
+        opacity: 1;
+      }
+
+      /* Hide on mobile for cleaner UI */
+      @media (max-width: 768px) {
+        .side-nav-dots {
+          display: none;
         }
+      }
 
-        @media (max-width: 1050px) {
-            .nav-links {
-                display: none;
-            }
+      .process-steps {
+        padding: 100px 0;
+        background: #fdfdfd;
+        position: relative;
+      }
 
-            .mobile-menu-toggle {
-                display: block;
-            }
-        }
+      .steps-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 40px;
+        margin-top: 64px;
+        perspective: 1000px;
+      }
 
-        @media (max-width: 768px) {
-            .mobile-menu-toggle {
-                display: block;
-            }
+      .step-card {
+        background: var(--white);
+        padding: 50px 35px;
+        border-radius: 20px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        border: 1px solid rgba(222, 58, 58, 0.1);
+        position: relative;
+        overflow: hidden;
+        text-align: center;
+      }
 
-            .hero {
-                padding: 120px 0 80px;
-                padding-top: 80px;
-            }
+      .step-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(135deg, rgba(222, 58, 58, 0.05) 0%, transparent 100%);
+        opacity: 0;
+        transition: opacity 0.3s ease;
+      }
 
-            .hero h1 {
-                font-size: 2.5rem;
-            }
+      .step-card:hover {
+        transform: translateY(-15px) scale(1.02);
+        box-shadow: var(--shadow-heavy);
+        border-color: var(--primary-red);
+      }
 
-            .about-content {
-                grid-template-columns: 1fr;
-                gap: 40px;
-            }
+      .step-card:hover::before {
+        opacity: 1;
+      }
 
-            .about-image {
-                height: 300px;
-            }
+      .step-number {
+        width: 70px;
+        height: 70px;
+        background: var(--primary-red);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 28px;
+        font-weight: 700;
+        color: var(--white);
+        margin: 0 auto 30px;
+        box-shadow: 0 8px 15px rgba(222, 58, 58, 0.3);
+        transition: all 0.3s ease;
+        z-index: 2;
+        position: relative;
+      }
 
-            .services-grid {
-                grid-template-columns: 1fr;
-            }
+      .step-card:hover .step-number {
+        transform: rotateY(360deg);
+        background: var(--dark-red);
+      }
 
-            .steps-grid {
-                grid-template-columns: 1fr;
-            }
+      .step-card h3 {
+        font-size: 1.6rem;
+        font-weight: 600;
+        margin-bottom: 20px;
+        color: var(--dark-gray);
+        position: relative;
+        z-index: 2;
+      }
 
-            .benefits-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .cta-buttons {
-                flex-direction: column;
-                align-items: center;
-            }
-
-            .btn {
-                width: 100%;
-                max-width: 300px;
-            }
-
-            .logo-text {
-                font-size: 20px;
-            }
-
-            .logo-icon {
-                width: 32px;
-                height: 32px;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .container {
-                padding: 0 16px;
-            }
-
-            .hero h1 {
-                font-size: 2rem;
-            }
-
-            .section-title {
-                font-size: 2rem;
-            }
-
-            .logo-text {
-                font-size: 18px;
-            }
-        }
-
+      .step-card p {
+        color: var(--medium-gray);
+        line-height: 1.8;
+        position: relative;
+        z-index: 2;
+        font-size: 1rem;
+      }
     </style>
     <script>
-        // FOUC check
-        document.documentElement.className = document.documentElement.className.replace('no-js', '');
+      // FOUC check
+      document.documentElement.className = document.documentElement.className.replace('no-js', '');
     </script>
-</head>
-<body>
-    <div class="loading-screen" id="loadingScreen">
-        <div class="loader-container">
-            <svg class="lambware-loader" viewBox="-200 -100 1000 700" xmlns="http://www.w3.org/2000/svg" style="overflow: visible;">
-                <rect height="100%" width="100%" x="-200" y="-100" fill="rgba(0, 0, 0, 1)"/>
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="401.4 401.4 1197.1 1197.1" height="300" width="300" y="120" x="150" preserveAspectRatio="xMinYMin" style="overflow: visible;">
-                    <path d="M1135.64,1433.43L1218.21,1598.57L401.427,1598.57L1000,401.427L1102.86,607.148L689.721,1433.43L1135.64,1433.43Z" fill="#FFFFFF"/>
-                    <path class="red-part" d="M1190.27,781.974L1095.26,971.995L1408.55,1598.57L1598.57,1598.57L1190.27,781.974Z" fill="#DE3A3A" style="overflow: visible;"/>
-                </svg>
-                <svg y="450" viewBox="3 8.3 474 23" x="40" height="30" width="520" xmlns="http://www.w3.org/2000/svg">
-                    <g fill="#FFFFFF">
-                        <path d="M18.88 30.98L3.01 30.98L3.01 8.58L7.17 8.58L7.17 27.46L18.88 27.46L18.88 30.98ZM31.30 30.98L27.01 30.98L37.09 8.58L41.18 8.58L51.30 30.98L46.94 30.98L38.27 10.78L39.94 10.78L31.30 30.98ZM45.98 25.79L31.65 25.79L32.77 22.53L44.86 22.53L45.98 25.79ZM66.11 30.98L62.14 30.98L62.14 8.58L65.57 8.58L75.36 24.93L73.57 24.93L83.20 8.58L86.62 8.58L86.66 30.98L82.72 30.98L82.69 14.75L83.52 14.75L75.33 28.42L73.47 28.42L65.15 14.75L66.11 14.75L66.11 30.98ZM111.84 30.98L100.70 30.98L100.70 8.58L111.20 8.58Q115.23 8.58 117.34 10.16Q119.46 11.74 119.46 14.40L119.46 14.40Q119.46 16.19 118.62 17.46Q117.79 18.72 116.40 19.41Q115.01 20.10 113.38 20.10L113.38 20.10L113.95 18.94Q115.84 18.94 117.34 19.63Q118.85 20.32 119.73 21.63Q120.61 22.94 120.61 24.90L120.61 24.90Q120.61 27.78 118.40 29.38Q116.19 30.98 111.84 30.98L111.84 30.98ZM104.86 11.84L104.86 27.71L111.58 27.71Q113.92 27.71 115.17 26.94Q116.42 26.18 116.42 24.48L116.42 24.48Q116.42 22.82 115.17 22.03Q113.92 21.25 111.58 21.25L111.58 21.25L104.54 21.25L104.54 18.02L110.75 18.02Q112.93 18.02 114.10 17.25Q115.26 16.48 115.26 14.94L115.26 14.94Q115.26 13.38 114.10 12.61Q112.93 11.84 110.75 11.84L110.75 11.84L104.86 11.84ZM142.78 30.98L138.34 30.98L130.91 8.58L135.23 8.58L141.86 28.83L139.71 28.83L146.59 8.58L150.43 8.58L157.12 28.83L155.04 28.83L161.82 8.58L165.79 8.58L158.37 30.98L153.95 30.98L147.84 12.70L148.99 12.70L142.78 30.98ZM178.78 30.98L174.50 30.98L184.58 8.58L188.67 8.58L198.78 30.98L194.43 30.98L185.76 10.78L187.42 10.78L178.78 30.98ZM193.47 25.79L179.14 25.79L180.26 22.53L192.35 22.53L193.47 25.79ZM213.79 30.98L209.63 30.98L209.63 8.58L218.82 8.58Q223.30 8.58 225.84 10.69Q228.38 12.80 228.38 16.54L228.38 16.54Q228.38 19.01 227.23 20.78Q226.08 22.56 223.95 23.50Q221.82 24.45 218.85 24.45L218.85 24.45L211.94 24.45L213.79 22.56L213.79 30.98ZM228.77 30.98L224.29 30.98L218.62 22.85L223.07 22.85L228.77 30.98ZM213.79 10.05L213.79 23.01L211.94 21.02L218.66 21.02Q221.41 21.02 222.80 19.84Q224.19 18.66 224.19 16.54L224.19 16.54Q224.19 14.40 222.80 13.25Q221.41 12.10 218.66 12.10L218.66 12.10L211.94 12.10L213.79 10.05ZM257.82 30.98L241.02 30.98L241.02 8.58L257.38 8.58L257.38 12.06L245.18 12.06L245.18 27.49L257.82 27.49L257.82 30.98ZM256 21.31L244.86 21.31L244.86 17.89L256 17.89L256 21.31ZM291.46 30.98L287.30 30.98L287.30 8.58L296.48 8.58Q300.96 8.58 303.50 10.69Q306.05 12.80 306.05 16.54L306.05 16.54Q306.05 19.01 304.90 20.78Q303.74 22.56 301.62 23.50Q299.49 24.45 296.51 24.45L296.51 24.45L289.60 24.45L291.46 22.56L291.46 30.98ZM306.43 30.98L301.95 30.98L296.29 22.85L300.74 22.85L306.43 30.98ZM291.46 10.05L291.46 23.01L289.60 21.02L296.32 21.02Q299.07 21.02 300.46 19.84Q301.86 18.66 301.86 16.54L301.86 16.54Q301.86 14.40 300.46 13.25Q299.07 12.10 296.32 12.10L296.32 12.10L289.60 12.10L291.46 10.05ZM335.49 30.98L318.69 30.98L318.69 8.58L335.04 8.58L335.04 12.06L322.85 12.06L322.85 27.49L335.49 27.49L335.49 30.98ZM333.66 21.31L322.53 21.31L322.53 17.89L333.66 17.89L333.66 21.31ZM352.29 30.98L348.13 30.98L348.13 8.58L357.34 8.58Q360.32 8.58 362.45 9.54Q364.58 10.50 365.73 12.29Q366.88 14.08 366.88 16.54L366.88 16.54Q366.88 19.01 365.73 20.80Q364.58 22.59 362.45 23.55Q360.32 24.51 357.34 24.51L357.34 24.51L350.43 24.51L352.29 22.56L352.29 30.98ZM352.29 10.05L352.29 23.01L350.43 20.99L357.15 20.99Q359.90 20.99 361.30 19.82Q362.69 18.66 362.69 16.54L362.69 16.54Q362.69 14.40 361.30 13.25Q359.90 12.10 357.15 12.10L357.15 12.10L350.43 12.10L352.29 10.05ZM380.48 30.98L376.19 30.98L386.27 8.58L390.37 8.58L400.48 30.98L396.13 30.98L387.46 10.78L389.12 10.78L380.48 30.98ZM395.17 25.79L380.83 25.79L381.95 22.53L394.05 22.53L395.17 25.79ZM415.49 30.98L411.33 30.98L411.33 8.58L415.49 8.58L415.49 30.98ZM433.70 30.98L429.54 30.98L429.54 8.58L438.72 8.58Q443.20 8.58 445.74 10.69Q448.29 12.80 448.29 16.54L448.29 16.54Q448.29 19.01 447.14 20.78Q445.98 22.56 443.86 23.50Q441.73 24.45 438.75 24.45L438.75 24.45L431.84 24.45L433.70 22.56L433.70 30.98ZM448.67 30.98L444.19 30.98L438.53 22.85L442.98 22.85L448.67 30.98ZM433.70 10.05L433.70 23.01L431.84 21.02L438.56 21.02Q441.31 21.02 442.70 19.84Q444.10 18.66 444.10 16.54L444.10 16.54Q444.10 14.40 442.70 13.25Q441.31 12.10 438.56 12.10L438.56 12.10L431.84 12.10L433.70 10.05ZM467.87 31.30L467.87 31.30Q465.25 31.30 462.85 30.54Q460.45 29.79 459.04 28.61L459.04 28.61L460.48 25.38Q461.82 26.43 463.81 27.14Q465.79 27.84 467.87 27.84L467.87 27.84Q469.63 27.84 470.72 27.46Q471.81 27.07 472.32 26.42Q472.83 25.76 472.83 24.93L472.83 24.93Q472.83 23.90 472.10 23.28Q471.36 22.66 470.19 22.29Q469.02 21.92 467.60 21.60Q466.18 21.28 464.75 20.85Q463.33 20.42 462.16 19.73Q460.99 19.04 460.26 17.89Q459.52 16.74 459.52 14.94L459.52 14.94Q459.52 13.12 460.50 11.60Q461.47 10.08 463.47 9.17Q465.47 8.26 468.54 8.26L468.54 8.26Q470.56 8.26 472.54 8.77Q474.53 9.28 476 10.24L476 10.24L474.69 13.47Q473.18 12.58 471.58 12.14Q469.98 11.71 468.51 11.71L468.51 11.71Q466.78 11.71 465.71 12.13Q464.64 12.54 464.14 13.22Q463.65 13.89 463.65 14.75L463.65 14.75Q463.65 15.78 464.37 16.40Q465.09 17.02 466.26 17.38Q467.42 17.73 468.86 18.06Q470.30 18.40 471.73 18.82Q473.15 19.23 474.32 19.90Q475.49 20.58 476.21 21.73Q476.93 22.88 476.93 24.64L476.93 24.64Q476.93 26.43 475.95 27.95Q474.98 29.47 472.96 30.38Q470.94 31.30 467.87 31.30Z"/>
-                    </g>
-                </svg>
-            </svg>
-            <div class="loading-text">Loading</div>
-            <div class="loading-bar">
-                <div class="loading-progress"></div>
-            </div>
-        </div>
+  </head>
+  <body>
+    <div class="side-nav-dots">
+      <a href="#hero" class="dot active" data-label="Home"></a>
+      <a href="#stats" class="dot" data-label="Stats"></a>
+      <a href="#process" class="dot" data-label="Process"></a>
+      <a href="#services" class="dot" data-label="Services"></a>
+      <a href="#about" class="dot" data-label="About"></a>
     </div>
-
+    <div class="loading-screen" id="loadingScreen">
+      <div class="loader-container">
+        <svg class="lambware-loader" viewBox="-200 -100 1000 700" xmlns="http://www.w3.org/2000/svg" style="overflow: visible;">
+          <rect height="100%" width="100%" x="-200" y="-100" fill="rgba(0, 0, 0, 1)" />
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="401.4 401.4 1197.1 1197.1" height="300" width="300" y="120" x="150" preserveAspectRatio="xMinYMin" style="overflow: visible;">
+            <path d="M1135.64,1433.43L1218.21,1598.57L401.427,1598.57L1000,401.427L1102.86,607.148L689.721,1433.43L1135.64,1433.43Z" fill="#FFFFFF" />
+            <path class="red-part" d="M1190.27,781.974L1095.26,971.995L1408.55,1598.57L1598.57,1598.57L1190.27,781.974Z" fill="#DE3A3A" style="overflow: visible;" />
+          </svg>
+          <svg y="450" viewBox="3 8.3 474 23" x="40" height="30" width="520" xmlns="http://www.w3.org/2000/svg">
+            <g fill="#FFFFFF">
+              <path d="M18.88 30.98L3.01 30.98L3.01 8.58L7.17 8.58L7.17 27.46L18.88 27.46L18.88 30.98ZM31.30 30.98L27.01 30.98L37.09 8.58L41.18 8.58L51.30 30.98L46.94 30.98L38.27 10.78L39.94 10.78L31.30 30.98ZM45.98 25.79L31.65 25.79L32.77 22.53L44.86 22.53L45.98 25.79ZM66.11 30.98L62.14 30.98L62.14 8.58L65.57 8.58L75.36 24.93L73.57 24.93L83.20 8.58L86.62 8.58L86.66 30.98L82.72 30.98L82.69 14.75L83.52 14.75L75.33 28.42L73.47 28.42L65.15 14.75L66.11 14.75L66.11 30.98ZM111.84 30.98L100.70 30.98L100.70 8.58L111.20 8.58Q115.23 8.58 117.34 10.16Q119.46 11.74 119.46 14.40L119.46 14.40Q119.46 16.19 118.62 17.46Q117.79 18.72 116.40 19.41Q115.01 20.10 113.38 20.10L113.38 20.10L113.95 18.94Q115.84 18.94 117.34 19.63Q118.85 20.32 119.73 21.63Q120.61 22.94 120.61 24.90L120.61 24.90Q120.61 27.78 118.40 29.38Q116.19 30.98 111.84 30.98L111.84 30.98ZM104.86 11.84L104.86 27.71L111.58 27.71Q113.92 27.71 115.17 26.94Q116.42 26.18 116.42 24.48L116.42 24.48Q116.42 22.82 115.17 22.03Q113.92 21.25 111.58 21.25L111.58 21.25L104.54 21.25L104.54 18.02L110.75 18.02Q112.93 18.02 114.10 17.25Q115.26 16.48 115.26 14.94L115.26 14.94Q115.26 13.38 114.10 12.61Q112.93 11.84 110.75 11.84L110.75 11.84L104.86 11.84ZM142.78 30.98L138.34 30.98L130.91 8.58L135.23 8.58L141.86 28.83L139.71 28.83L146.59 8.58L150.43 8.58L157.12 28.83L155.04 28.83L161.82 8.58L165.79 8.58L158.37 30.98L153.95 30.98L147.84 12.70L148.99 12.70L142.78 30.98ZM178.78 30.98L174.50 30.98L184.58 8.58L188.67 8.58L198.78 30.98L194.43 30.98L185.76 10.78L187.42 10.78L178.78 30.98ZM193.47 25.79L179.14 25.79L180.26 22.53L192.35 22.53L193.47 25.79ZM213.79 30.98L209.63 30.98L209.63 8.58L218.82 8.58Q223.30 8.58 225.84 10.69Q228.38 12.80 228.38 16.54L228.38 16.54Q228.38 19.01 227.23 20.78Q226.08 22.56 223.95 23.50Q221.82 24.45 218.85 24.45L218.85 24.45L211.94 24.45L213.79 22.56L213.79 30.98ZM228.77 30.98L224.29 30.98L218.62 22.85L223.07 22.85L228.77 30.98ZM213.79 10.05L213.79 23.01L211.94 21.02L218.66 21.02Q221.41 21.02 222.80 19.84Q224.19 18.66 224.19 16.54L224.19 16.54Q224.19 14.40 222.80 13.25Q221.41 12.10 218.66 12.10L218.66 12.10L211.94 12.10L213.79 10.05ZM257.82 30.98L241.02 30.98L241.02 8.58L257.38 8.58L257.38 12.06L245.18 12.06L245.18 27.49L257.82 27.49L257.82 30.98ZM256 21.31L244.86 21.31L244.86 17.89L256 17.89L256 21.31ZM291.46 30.98L287.30 30.98L287.30 8.58L296.48 8.58Q300.96 8.58 303.50 10.69Q306.05 12.80 306.05 16.54L306.05 16.54Q306.05 19.01 304.90 20.78Q303.74 22.56 301.62 23.50Q299.49 24.45 296.51 24.45L296.51 24.45L289.60 24.45L291.46 22.56L291.46 30.98ZM306.43 30.98L301.95 30.98L296.29 22.85L300.74 22.85L306.43 30.98ZM291.46 10.05L291.46 23.01L289.60 21.02L296.32 21.02Q299.07 21.02 300.46 19.84Q301.86 18.66 301.86 16.54L301.86 16.54Q301.86 14.40 300.46 13.25Q299.07 12.10 296.32 12.10L296.32 12.10L289.60 12.10L291.46 10.05ZM335.49 30.98L318.69 30.98L318.69 8.58L335.04 8.58L335.04 12.06L322.85 12.06L322.85 27.49L335.49 27.49L335.49 30.98ZM333.66 21.31L322.53 21.31L322.53 17.89L333.66 17.89L333.66 21.31ZM352.29 30.98L348.13 30.98L348.13 8.58L357.34 8.58Q360.32 8.58 362.45 9.54Q364.58 10.50 365.73 12.29Q366.88 14.08 366.88 16.54L366.88 16.54Q366.88 19.01 365.73 20.80Q364.58 22.59 362.45 23.55Q360.32 24.51 357.34 24.51L357.34 24.51L350.43 24.51L352.29 22.56L352.29 30.98ZM352.29 10.05L352.29 23.01L350.43 20.99L357.15 20.99Q359.90 20.99 361.30 19.82Q362.69 18.66 362.69 16.54L362.69 16.54Q362.69 14.40 361.30 13.25Q359.90 12.10 357.15 12.10L357.15 12.10L350.43 12.10L352.29 10.05ZM380.48 30.98L376.19 30.98L386.27 8.58L390.37 8.58L400.48 30.98L396.13 30.98L387.46 10.78L389.12 10.78L380.48 30.98ZM395.17 25.79L380.83 25.79L381.95 22.53L394.05 22.53L395.17 25.79ZM415.49 30.98L411.33 30.98L411.33 8.58L415.49 8.58L415.49 30.98ZM433.70 30.98L429.54 30.98L429.54 8.58L438.72 8.58Q443.20 8.58 445.74 10.69Q448.29 12.80 448.29 16.54L448.29 16.54Q448.29 19.01 447.14 20.78Q445.98 22.56 443.86 23.50Q441.73 24.45 438.75 24.45L438.75 24.45L431.84 24.45L433.70 22.56L433.70 30.98ZM448.67 30.98L444.19 30.98L438.53 22.85L442.98 22.85L448.67 30.98ZM433.70 10.05L433.70 23.01L431.84 21.02L438.56 21.02Q441.31 21.02 442.70 19.84Q444.10 18.66 444.10 16.54L444.10 16.54Q444.10 14.40 442.70 13.25Q441.31 12.10 438.56 12.10L438.56 12.10L431.84 12.10L433.70 10.05ZM467.87 31.30L467.87 31.30Q465.25 31.30 462.85 30.54Q460.45 29.79 459.04 28.61L459.04 28.61L460.48 25.38Q461.82 26.43 463.81 27.14Q465.79 27.84 467.87 27.84L467.87 27.84Q469.63 27.84 470.72 27.46Q471.81 27.07 472.32 26.42Q472.83 25.76 472.83 24.93L472.83 24.93Q472.83 23.90 472.10 23.28Q471.36 22.66 470.19 22.29Q469.02 21.92 467.60 21.60Q466.18 21.28 464.75 20.85Q463.33 20.42 462.16 19.73Q460.99 19.04 460.26 17.89Q459.52 16.74 459.52 14.94L459.52 14.94Q459.52 13.12 460.50 11.60Q461.47 10.08 463.47 9.17Q465.47 8.26 468.54 8.26L468.54 8.26Q470.56 8.26 472.54 8.77Q474.53 9.28 476 10.24L476 10.24L474.69 13.47Q473.18 12.58 471.58 12.14Q469.98 11.71 468.51 11.71L468.51 11.71Q466.78 11.71 465.71 12.13Q464.64 12.54 464.14 13.22Q463.65 13.89 463.65 14.75L463.65 14.75Q463.65 15.78 464.37 16.40Q465.09 17.02 466.26 17.38Q467.42 17.73 468.86 18.06Q470.30 18.40 471.73 18.82Q473.15 19.23 474.32 19.90Q475.49 20.58 476.21 21.73Q476.93 22.88 476.93 24.64L476.93 24.64Q476.93 26.43 475.95 27.95Q474.98 29.47 472.96 30.38Q470.94 31.30 467.87 31.30Z" />
+            </g>
+          </svg>
+        </svg>
+        <div class="loading-text">Loading</div>
+        <div class="loading-bar">
+          <div class="loading-progress"></div>
+        </div>
+      </div>
+    </div>
     <header>
-        <nav class="container">
-            <a href="index.html" class="logo">
-                <svg class="logo-icon" viewBox="401.427001953125 401.427001953125 1197.1429443359375 1197.1429443359375" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M1135.64,1433.43L1218.21,1598.57L401.427,1598.57L1000,401.427L1102.86,607.148L689.721,1433.43L1135.64,1433.43Z" fill="currentColor"/>
-                    <path d="M1190.27,781.974L1095.26,971.995L1408.55,1598.57L1598.57,1598.57L1190.27,781.974Z" fill="#DE3A3A"/>
-                </svg>
-                <span class="logo-text">Lambware Repairs</span>
-            </a>
-            <button class="mobile-menu-toggle" onclick="toggleMobileMenu()">☰</button>
-            <ul class="nav-links">
-                <li><a href="#home">Home</a></li>
-                <li><a href="services.html">Services</a></li>
-                <li><a href="#about">About</a></li>
-                <li><a href="#contact">Contact</a></li>
-                <li><a href="quote.html" class="cta-nav">Get Quote</a></li>
-            </ul>
-        </nav>
-        <div class="mobile-menu" id="mobileMenu">
-            <ul>
-                <li><a href="#home" onclick="toggleMobileMenu()">Home</a></li>
-                <li><a href="services.html" onclick="toggleMobileMenu()">Services</a></li>
-                <li><a href="#about" onclick="toggleMobileMenu()">About</a></li>
-                <li><a href="#contact" onclick="toggleMobileMenu()">Contact</a></li>
-                <li><a href="quote.html" class="mobile-cta-btn" onclick="toggleMobileMenu()">Get Quote</a></li>
-            </ul>
-        </div>
+      <nav class="container">
+        <a href="index.html" class="logo">
+          <svg class="logo-icon" viewBox="401.427001953125 401.427001953125 1197.1429443359375 1197.1429443359375" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M1135.64,1433.43L1218.21,1598.57L401.427,1598.57L1000,401.427L1102.86,607.148L689.721,1433.43L1135.64,1433.43Z" fill="currentColor" />
+            <path d="M1190.27,781.974L1095.26,971.995L1408.55,1598.57L1598.57,1598.57L1190.27,781.974Z" fill="#DE3A3A" />
+          </svg>
+          <span class="logo-text">Lambware Repairs</span>
+        </a>
+        <button class="mobile-menu-toggle" onclick="toggleMobileMenu()">☰</button>
+        <ul class="nav-links">
+          <li>
+            <a href="#home">Home</a>
+          </li>
+          <li>
+            <a href="services.html">Services</a>
+          </li>
+          <li>
+            <a href="#about">About</a>
+          </li>
+          <li>
+            <a href="#contact">Contact</a>
+          </li>
+          <li>
+            <a href="quote.html" class="cta-nav">Get Quote</a>
+          </li>
+        </ul>
+      </nav>
+      <div class="mobile-menu" id="mobileMenu">
+        <ul>
+          <li>
+            <a href="#home" onclick="toggleMobileMenu()">Home</a>
+          </li>
+          <li>
+            <a href="services.html" onclick="toggleMobileMenu()">Services</a>
+          </li>
+          <li>
+            <a href="#about" onclick="toggleMobileMenu()">About</a>
+          </li>
+          <li>
+            <a href="#contact" onclick="toggleMobileMenu()">Contact</a>
+          </li>
+          <li>
+            <a href="quote.html" class="mobile-cta-btn" onclick="toggleMobileMenu()">Get Quote</a>
+          </li>
+        </ul>
+      </div>
     </header>
-
-    <section id="home" class="hero">
-        <div class="container">
-            <div class="hero-content-wrapper">
-                <div class="hero-logo-section">
-                    <svg class="hero-logo-svg" viewBox="-19.5 75 614 425" xmlns="http://www.w3.org/2000/svg">
-                        <rect height="100%" width="100%" x="-19.5" y="75" fill="rgba(0, 0, 0, 1)"/>
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="401.4 401.4 1197.1 1197.1" height="230" width="230" y="145" x="172.5" preserveAspectRatio="xMinYMin">
-                            <path d="M1135.64,1433.43L1218.21,1598.57L401.427,1598.57L1000,401.427L1102.86,607.148L689.721,1433.43L1135.64,1433.43Z" fill="#FFFFFF"/>
-                            <path d="M1190.27,781.974L1095.26,971.995L1408.55,1598.57L1598.57,1598.57L1190.27,781.974Z" fill="#DE3A3A"/>
-                        </svg>
-                        <svg y="407" viewBox="3 8.3 474 23" x="50.5" height="23" width="474" xmlns="http://www.w3.org/2000/svg">
-                            <g fill="#FFFFFF">
-                                <path d="M18.88 30.98L3.01 30.98L3.01 8.58L7.17 8.58L7.17 27.46L18.88 27.46L18.88 30.98ZM31.30 30.98L27.01 30.98L37.09 8.58L41.18 8.58L51.30 30.98L46.94 30.98L38.27 10.78L39.94 10.78L31.30 30.98ZM45.98 25.79L31.65 25.79L32.77 22.53L44.86 22.53L45.98 25.79ZM66.11 30.98L62.14 30.98L62.14 8.58L65.57 8.58L75.36 24.93L73.57 24.93L83.20 8.58L86.62 8.58L86.66 30.98L82.72 30.98L82.69 14.75L83.52 14.75L75.33 28.42L73.47 28.42L65.15 14.75L66.11 14.75L66.11 30.98ZM111.84 30.98L100.70 30.98L100.70 8.58L111.20 8.58Q115.23 8.58 117.34 10.16Q119.46 11.74 119.46 14.40L119.46 14.40Q119.46 16.19 118.62 17.46Q117.79 18.72 116.40 19.41Q115.01 20.10 113.38 20.10L113.38 20.10L113.95 18.94Q115.84 18.94 117.34 19.63Q118.85 20.32 119.73 21.63Q120.61 22.94 120.61 24.90L120.61 24.90Q120.61 27.78 118.40 29.38Q116.19 30.98 111.84 30.98L111.84 30.98ZM104.86 11.84L104.86 27.71L111.58 27.71Q113.92 27.71 115.17 26.94Q116.42 26.18 116.42 24.48L116.42 24.48Q116.42 22.82 115.17 22.03Q113.92 21.25 111.58 21.25L111.58 21.25L104.54 21.25L104.54 18.02L110.75 18.02Q112.93 18.02 114.10 17.25Q115.26 16.48 115.26 14.94L115.26 14.94Q115.26 13.38 114.10 12.61Q112.93 11.84 110.75 11.84L110.75 11.84L104.86 11.84ZM142.78 30.98L138.34 30.98L130.91 8.58L135.23 8.58L141.86 28.83L139.71 28.83L146.59 8.58L150.43 8.58L157.12 28.83L155.04 28.83L161.82 8.58L165.79 8.58L158.37 30.98L153.95 30.98L147.84 12.70L148.99 12.70L142.78 30.98ZM178.78 30.98L174.50 30.98L184.58 8.58L188.67 8.58L198.78 30.98L194.43 30.98L185.76 10.78L187.42 10.78L178.78 30.98ZM193.47 25.79L179.14 25.79L180.26 22.53L192.35 22.53L193.47 25.79ZM213.79 30.98L209.63 30.98L209.63 8.58L218.82 8.58Q223.30 8.58 225.84 10.69Q228.38 12.80 228.38 16.54L228.38 16.54Q228.38 19.01 227.23 20.78Q226.08 22.56 223.95 23.50Q221.82 24.45 218.85 24.45L218.85 24.45L211.94 24.45L213.79 22.56L213.79 30.98ZM228.77 30.98L224.29 30.98L218.62 22.85L223.07 22.85L228.77 30.98ZM213.79 10.05L213.79 23.01L211.94 21.02L218.66 21.02Q221.41 21.02 222.80 19.84Q224.19 18.66 224.19 16.54L224.19 16.54Q224.19 14.40 222.80 13.25Q221.41 12.10 218.66 12.10L218.66 12.10L211.94 12.10L213.79 10.05ZM257.82 30.98L241.02 30.98L241.02 8.58L257.38 8.58L257.38 12.06L245.18 12.06L245.18 27.49L257.82 27.49L257.82 30.98ZM256 21.31L244.86 21.31L244.86 17.89L256 17.89L256 21.31ZM291.46 30.98L287.30 30.98L287.30 8.58L296.48 8.58Q300.96 8.58 303.50 10.69Q306.05 12.80 306.05 16.54L306.05 16.54Q306.05 19.01 304.90 20.78Q303.74 22.56 301.62 23.50Q299.49 24.45 296.51 24.45L296.51 24.45L289.60 24.45L291.46 22.56L291.46 30.98ZM306.43 30.98L301.95 30.98L296.29 22.85L300.74 22.85L306.43 30.98ZM291.46 10.05L291.46 23.01L289.60 21.02L296.32 21.02Q299.07 21.02 300.46 19.84Q301.86 18.66 301.86 16.54L301.86 16.54Q301.86 14.40 300.46 13.25Q299.07 12.10 296.32 12.10L296.32 12.10L289.60 12.10L291.46 10.05ZM335.49 30.98L318.69 30.98L318.69 8.58L335.04 8.58L335.04 12.06L322.85 12.06L322.85 27.49L335.49 27.49L335.49 30.98ZM333.66 21.31L322.53 21.31L322.53 17.89L333.66 17.89L333.66 21.31ZM352.29 30.98L348.13 30.98L348.13 8.58L357.34 8.58Q360.32 8.58 362.45 9.54Q364.58 10.50 365.73 12.29Q366.88 14.08 366.88 16.54L366.88 16.54Q366.88 19.01 365.73 20.80Q364.58 22.59 362.45 23.55Q360.32 24.51 357.34 24.51L357.34 24.51L350.43 24.51L352.29 22.56L352.29 30.98ZM352.29 10.05L352.29 23.01L350.43 20.99L357.15 20.99Q359.90 20.99 361.30 19.82Q362.69 18.66 362.69 16.54L362.69 16.54Q362.69 14.40 361.30 13.25Q359.90 12.10 357.15 12.10L357.15 12.10L350.43 12.10L352.29 10.05ZM380.48 30.98L376.19 30.98L386.27 8.58L390.37 8.58L400.48 30.98L396.13 30.98L387.46 10.78L389.12 10.78L380.48 30.98ZM395.17 25.79L380.83 25.79L381.95 22.53L394.05 22.53L395.17 25.79ZM415.49 30.98L411.33 30.98L411.33 8.58L415.49 8.58L415.49 30.98ZM433.70 30.98L429.54 30.98L429.54 8.58L438.72 8.58Q443.20 8.58 445.74 10.69Q448.29 12.80 448.29 16.54L448.29 16.54Q448.29 19.01 447.14 20.78Q445.98 22.56 443.86 23.50Q441.73 24.45 438.75 24.45L438.75 24.45L431.84 24.45L433.70 22.56L433.70 30.98ZM448.67 30.98L444.19 30.98L438.53 22.85L442.98 22.85L448.67 30.98ZM433.70 10.05L433.70 23.01L431.84 21.02L438.56 21.02Q441.31 21.02 442.70 19.84Q444.10 18.66 444.10 16.54L444.10 16.54Q444.10 14.40 442.70 13.25Q441.31 12.10 438.56 12.10L438.56 12.10L431.84 12.10L433.70 10.05ZM467.87 31.30L467.87 31.30Q465.25 31.30 462.85 30.54Q460.45 29.79 459.04 28.61L459.04 28.61L460.48 25.38Q461.82 26.43 463.81 27.14Q465.79 27.84 467.87 27.84L467.87 27.84Q469.63 27.84 470.72 27.46Q471.81 27.07 472.32 26.42Q472.83 25.76 472.83 24.93L472.83 24.93Q472.83 23.90 472.10 23.28Q471.36 22.66 470.19 22.29Q469.02 21.92 467.60 21.60Q466.18 21.28 464.75 20.85Q463.33 20.42 462.16 19.73Q460.99 19.04 460.26 17.89Q459.52 16.74 459.52 14.94L459.52 14.94Q459.52 13.12 460.50 11.60Q461.47 10.08 463.47 9.17Q465.47 8.26 468.54 8.26L468.54 8.26Q470.56 8.26 472.54 8.77Q474.53 9.28 476 10.24L476 10.24L474.69 13.47Q473.18 12.58 471.58 12.14Q469.98 11.71 468.51 11.71L468.51 11.71Q466.78 11.71 465.71 12.13Q464.64 12.54 464.14 13.22Q463.65 13.89 463.65 14.75L463.65 14.75Q463.65 15.78 464.37 16.40Q465.09 17.02 466.26 17.38Q467.42 17.73 468.86 18.06Q470.30 18.40 471.73 18.82Q473.15 19.23 474.32 19.90Q475.49 20.58 476.21 21.73Q476.93 22.88 476.93 24.64L476.93 24.64Q476.93 26.43 475.95 27.95Q474.98 29.47 472.96 30.38Q470.94 31.30 467.87 31.30Z"/>
-                            </g>
-                        </svg>
-                    </svg>
-                </div>
-                <div class="hero-content">
-                    <h1><span class="highlight">Professional Tech Services</span> You Can Trust</h1>
-                    <p>Expert computer repair, optimization, and technology solutions by a certified technician serving Saint John and Fredericton, NB with 15+ years of experience.</p>
-                    <div class="cta-buttons">
-                        <a href="quote.html" class="btn btn-primary">Get Free Quote</a>
-                        <a href="services.html" class="btn btn-secondary">View Services</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="stats">
-        <div class="container">
-            <div class="stats-grid">
-                <div class="stat-item">
-                    <span class="stat-number">15+</span>
-                    <span class="stat-label">Years Experience</span>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-number">Custom</span>
-                    <span class="stat-label">Solutions</span>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-number">Local</span>
-                    <span class="stat-label">Expert</span>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-number">1-on-1</span>
-                    <span class="stat-label">Personal Service</span>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="process-steps">
-        <div class="container">
-            <div class="section-header">
-                <h2 class="section-title">Our Simple Process</h2>
-                <p class="section-subtitle">Getting your tech fixed has never been easier with my streamlined 4-step process</p>
-            </div>
-            <div class="steps-grid">
-                <div class="step-card">
-                    <div class="step-number">1</div>
-                    <h3>Diagnose</h3>
-                    <p>Free comprehensive diagnostic to identify the root cause of your tech issues</p>
-                </div>
-                <div class="step-card">
-                    <div class="step-number">2</div>
-                    <h3>Quote</h3>
-                    <p>Transparent pricing with detailed explanation of required work and realistic timeframe</p>
-                </div>
-                <div class="step-card">
-                    <div class="step-number">3</div>
-                    <h3>Work & Optimize</h3>
-                    <p>I personally handle all repairs and optimizations using quality parts and proven techniques</p>
-                </div>
-                <div class="step-card">
-                    <div class="step-number">4</div>
-                    <h3>Test & Deliver</h3>
-                    <p>Thorough testing and benchmarking ensures everything works perfectly before I return your device</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="services" class="services">
-        <div class="container">
-            <div class="section-header">
-                <h2 class="section-title">Expert Services</h2>
-                <p class="section-subtitle">Comprehensive technology solutions designed to keep your devices running at peak performance</p>
-            </div>
-            <div class="services-grid">
-                <div class="service-card">
-                    <div class="service-icon">🔧</div>
-                    <h3>Computer Repair & Diagnostics</h3>
-                    <p>Complete hardware and software repair services with advanced diagnostic techniques</p>
-                    <ul class="service-features">
-                        <li>Hardware diagnostics & replacement</li>
-                        <li>Software troubleshooting</li>
-                        <li>System optimization</li>
-                        <li>Virus & malware removal</li>
-                    </ul>
-                </div>
-                <div class="service-card">
-                    <div class="service-icon">⚡</div>
-                    <h3>Performance Optimization</h3>
-                    <p>Maximize your system's performance with professional overclocking and tuning</p>
-                    <ul class="service-features">
-                        <li>CPU & GPU overclocking</li>
-                        <li>Memory optimization</li>
-                        <li>Thermal management</li>
-                        <li>Benchmark testing</li>
-                    </ul>
-                </div>
-                <div class="service-card">
-                    <div class="service-icon">📱</div>
-                    <h3>Mobile Device Services</h3>
-                    <p>Professional repair and setup services for smartphones and tablets</p>
-                    <ul class="service-features">
-                        <li>Screen replacements</li>
-                        <li>Battery service</li>
-                        <li>Software troubleshooting</li>
-                        <li>Data migration</li>
-                    </ul>
-                </div>
-                <div class="service-card">
-                    <div class="service-icon">🔒</div>
-                    <h3>Data & Security Solutions</h3>
-                    <p>Protect and recover your valuable data with enterprise-grade solutions</p>
-                    <ul class="service-features">
-                        <li>Data recovery services</li>
-                        <li>Backup solutions</li>
-                        <li>Cybersecurity setup</li>
-                        <li>Privacy protection</li>
-                    </ul>
-                </div>
-                <div class="service-card">
-                    <div class="service-icon">🌐</div>
-                    <h3>Network & Connectivity</h3>
-                    <p>Home and office network setup and optimization for reliable connectivity</p>
-                    <ul class="service-features">
-                        <li>Wi-Fi setup & optimization</li>
-                        <li>Network security</li>
-                        <li>Router configuration</li>
-                        <li>Connectivity troubleshooting</li>
-                    </ul>
-                </div>
-                <div class="service-card">
-                    <div class="service-icon">💼</div>
-                    <h3>Business IT Support</h3>
-                    <p>Comprehensive IT solutions tailored for small businesses and professionals</p>
-                    <ul class="service-features">
-                        <li>On-site support</li>
-                        <li>System maintenance</li>
-                        <li>Technology consulting</li>
-                        <li>Equipment recommendations</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="why-choose">
-        <div class="container">
-            <div class="section-header">
-                <h2 class="section-title">Why Choose Lambware Repairs</h2>
-                <p class="section-subtitle">Experience the difference of working with a trusted local technology expert</p>
-            </div>
-            <div class="benefits-grid">
-                <div class="benefit-card">
-                    <div class="benefit-icon">🎓</div>
-                    <h4>Certified Expertise</h4>
-                    <p>15+ years of experience with certifications from Cisco & Genesys Cloud, plus background in AI development.</p>
-                </div>
-                <div class="benefit-card">
-                    <div class="benefit-icon">🏠</div>
-                    <h4>Local Service</h4>
-                    <p>Based in Saint John & Fredericton, NB. We understand local needs and provide personalized service.</p>
-                </div>
-                <div class="benefit-card">
-                    <div class="benefit-icon">💰</div>
-                    <h4>Transparent Pricing</h4>
-                    <p>No hidden fees or surprise charges. Clear, upfront pricing with detailed quotes before any work begins.</p>
-                </div>
-                <div class="benefit-card">
-                    <div class="benefit-icon">🛡️</div>
-                    <h4>30-Day Warranty</h4>
-                    <p>All repairs come with a comprehensive 30-day warranty for your peace of mind.</p>
-                </div>
-                <div class="benefit-card">
-                    <div class="benefit-icon">⚡</div>
-                    <h4>Fast Turnaround</h4>
-                    <p>Most repairs completed within 24-48 hours. Emergency and rush services available when needed.</p>
-                </div>
-                <div class="benefit-card">
-                    <div class="benefit-icon">🔧</div>
-                    <h4>Quality Parts</h4>
-                    <p>We use only high-quality replacement parts and professional-grade tools for lasting repairs.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="about" class="about">
-        <div class="container">
-            <div class="section-header">
-                <h2 class="section-title">About Lambware Repairs</h2>
-                <p class="section-subtitle">Your trusted local technology expert with proven expertise and certifications</p>
-            </div>
-            <div class="about-content">
-                <div class="about-text">
-                    <h3>Professional Expertise</h3>
-                    <p>Hi, I'm Michael, the certified technician and developer behind Lambware Repairs. I'm dedicated to providing top-notch technology services that exceed your expectations. My mission is to ensure every device runs like new, using advanced diagnostic techniques and quality parts that protect your investment while delivering reliable results.</p>
-                    <p>With a background in both hardware repair and software development, including work as an Artificial Intelligence developer, plus hands-on experience as a technician and advisor at Staples, Geek Squad, and McLean Micro here in the local area, I bring a unique perspective to solving complex tech problems.</p>
-                    <p>Whether you're a gamer needing performance optimization or a business owner requiring reliable IT support, I have the expertise and tools to get your technology working perfectly. I take pride in personal service and building lasting relationships with my clients in Saint John and Fredericton.</p>
-                </div>
-                <div class="about-image">
-                    🛠️
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="contact" class="cta-section">
-        <div class="container">
-            <h2>Ready to Fix Your Tech Problems?</h2>
-            <p>Get professional service with transparent pricing and a 30-day warranty</p>
+    <section id="hero" class="hero">
+      <div class="container">
+        <div class="hero-content-wrapper">
+          <div class="hero-logo-section">
+            <svg class="hero-logo-svg" viewBox="-19.5 75 614 425" xmlns="http://www.w3.org/2000/svg">
+              <rect height="100%" width="100%" x="-19.5" y="75" fill="rgba(0, 0, 0, 1)" />
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="401.4 401.4 1197.1 1197.1" height="230" width="230" y="145" x="172.5" preserveAspectRatio="xMinYMin">
+                <path d="M1135.64,1433.43L1218.21,1598.57L401.427,1598.57L1000,401.427L1102.86,607.148L689.721,1433.43L1135.64,1433.43Z" fill="#FFFFFF" />
+                <path d="M1190.27,781.974L1095.26,971.995L1408.55,1598.57L1598.57,1598.57L1190.27,781.974Z" fill="#DE3A3A" />
+              </svg>
+              <svg y="407" viewBox="3 8.3 474 23" x="50.5" height="23" width="474" xmlns="http://www.w3.org/2000/svg">
+                <g fill="#FFFFFF">
+                  <path d="M18.88 30.98L3.01 30.98L3.01 8.58L7.17 8.58L7.17 27.46L18.88 27.46L18.88 30.98ZM31.30 30.98L27.01 30.98L37.09 8.58L41.18 8.58L51.30 30.98L46.94 30.98L38.27 10.78L39.94 10.78L31.30 30.98ZM45.98 25.79L31.65 25.79L32.77 22.53L44.86 22.53L45.98 25.79ZM66.11 30.98L62.14 30.98L62.14 8.58L65.57 8.58L75.36 24.93L73.57 24.93L83.20 8.58L86.62 8.58L86.66 30.98L82.72 30.98L82.69 14.75L83.52 14.75L75.33 28.42L73.47 28.42L65.15 14.75L66.11 14.75L66.11 30.98ZM111.84 30.98L100.70 30.98L100.70 8.58L111.20 8.58Q115.23 8.58 117.34 10.16Q119.46 11.74 119.46 14.40L119.46 14.40Q119.46 16.19 118.62 17.46Q117.79 18.72 116.40 19.41Q115.01 20.10 113.38 20.10L113.38 20.10L113.95 18.94Q115.84 18.94 117.34 19.63Q118.85 20.32 119.73 21.63Q120.61 22.94 120.61 24.90L120.61 24.90Q120.61 27.78 118.40 29.38Q116.19 30.98 111.84 30.98L111.84 30.98ZM104.86 11.84L104.86 27.71L111.58 27.71Q113.92 27.71 115.17 26.94Q116.42 26.18 116.42 24.48L116.42 24.48Q116.42 22.82 115.17 22.03Q113.92 21.25 111.58 21.25L111.58 21.25L104.54 21.25L104.54 18.02L110.75 18.02Q112.93 18.02 114.10 17.25Q115.26 16.48 115.26 14.94L115.26 14.94Q115.26 13.38 114.10 12.61Q112.93 11.84 110.75 11.84L110.75 11.84L104.86 11.84ZM142.78 30.98L138.34 30.98L130.91 8.58L135.23 8.58L141.86 28.83L139.71 28.83L146.59 8.58L150.43 8.58L157.12 28.83L155.04 28.83L161.82 8.58L165.79 8.58L158.37 30.98L153.95 30.98L147.84 12.70L148.99 12.70L142.78 30.98ZM178.78 30.98L174.50 30.98L184.58 8.58L188.67 8.58L198.78 30.98L194.43 30.98L185.76 10.78L187.42 10.78L178.78 30.98ZM193.47 25.79L179.14 25.79L180.26 22.53L192.35 22.53L193.47 25.79ZM213.79 30.98L209.63 30.98L209.63 8.58L218.82 8.58Q223.30 8.58 225.84 10.69Q228.38 12.80 228.38 16.54L228.38 16.54Q228.38 19.01 227.23 20.78Q226.08 22.56 223.95 23.50Q221.82 24.45 218.85 24.45L218.85 24.45L211.94 24.45L213.79 22.56L213.79 30.98ZM228.77 30.98L224.29 30.98L218.62 22.85L223.07 22.85L228.77 30.98ZM213.79 10.05L213.79 23.01L211.94 21.02L218.66 21.02Q221.41 21.02 222.80 19.84Q224.19 18.66 224.19 16.54L224.19 16.54Q224.19 14.40 222.80 13.25Q221.41 12.10 218.66 12.10L218.66 12.10L211.94 12.10L213.79 10.05ZM257.82 30.98L241.02 30.98L241.02 8.58L257.38 8.58L257.38 12.06L245.18 12.06L245.18 27.49L257.82 27.49L257.82 30.98ZM256 21.31L244.86 21.31L244.86 17.89L256 17.89L256 21.31ZM291.46 30.98L287.30 30.98L287.30 8.58L296.48 8.58Q300.96 8.58 303.50 10.69Q306.05 12.80 306.05 16.54L306.05 16.54Q306.05 19.01 304.90 20.78Q303.74 22.56 301.62 23.50Q299.49 24.45 296.51 24.45L296.51 24.45L289.60 24.45L291.46 22.56L291.46 30.98ZM306.43 30.98L301.95 30.98L296.29 22.85L300.74 22.85L306.43 30.98ZM291.46 10.05L291.46 23.01L289.60 21.02L296.32 21.02Q299.07 21.02 300.46 19.84Q301.86 18.66 301.86 16.54L301.86 16.54Q301.86 14.40 300.46 13.25Q299.07 12.10 296.32 12.10L296.32 12.10L289.60 12.10L291.46 10.05ZM335.49 30.98L318.69 30.98L318.69 8.58L335.04 8.58L335.04 12.06L322.85 12.06L322.85 27.49L335.49 27.49L335.49 30.98ZM333.66 21.31L322.53 21.31L322.53 17.89L333.66 17.89L333.66 21.31ZM352.29 30.98L348.13 30.98L348.13 8.58L357.34 8.58Q360.32 8.58 362.45 9.54Q364.58 10.50 365.73 12.29Q366.88 14.08 366.88 16.54L366.88 16.54Q366.88 19.01 365.73 20.80Q364.58 22.59 362.45 23.55Q360.32 24.51 357.34 24.51L357.34 24.51L350.43 24.51L352.29 22.56L352.29 30.98ZM352.29 10.05L352.29 23.01L350.43 20.99L357.15 20.99Q359.90 20.99 361.30 19.82Q362.69 18.66 362.69 16.54L362.69 16.54Q362.69 14.40 361.30 13.25Q359.90 12.10 357.15 12.10L357.15 12.10L350.43 12.10L352.29 10.05ZM380.48 30.98L376.19 30.98L386.27 8.58L390.37 8.58L400.48 30.98L396.13 30.98L387.46 10.78L389.12 10.78L380.48 30.98ZM395.17 25.79L380.83 25.79L381.95 22.53L394.05 22.53L395.17 25.79ZM415.49 30.98L411.33 30.98L411.33 8.58L415.49 8.58L415.49 30.98ZM433.70 30.98L429.54 30.98L429.54 8.58L438.72 8.58Q443.20 8.58 445.74 10.69Q448.29 12.80 448.29 16.54L448.29 16.54Q448.29 19.01 447.14 20.78Q445.98 22.56 443.86 23.50Q441.73 24.45 438.75 24.45L438.75 24.45L431.84 24.45L433.70 22.56L433.70 30.98ZM448.67 30.98L444.19 30.98L438.53 22.85L442.98 22.85L448.67 30.98ZM433.70 10.05L433.70 23.01L431.84 21.02L438.56 21.02Q441.31 21.02 442.70 19.84Q444.10 18.66 444.10 16.54L444.10 16.54Q444.10 14.40 442.70 13.25Q441.31 12.10 438.56 12.10L438.56 12.10L431.84 12.10L433.70 10.05ZM467.87 31.30L467.87 31.30Q465.25 31.30 462.85 30.54Q460.45 29.79 459.04 28.61L459.04 28.61L460.48 25.38Q461.82 26.43 463.81 27.14Q465.79 27.84 467.87 27.84L467.87 27.84Q469.63 27.84 470.72 27.46Q471.81 27.07 472.32 26.42Q472.83 25.76 472.83 24.93L472.83 24.93Q472.83 23.90 472.10 23.28Q471.36 22.66 470.19 22.29Q469.02 21.92 467.60 21.60Q466.18 21.28 464.75 20.85Q463.33 20.42 462.16 19.73Q460.99 19.04 460.26 17.89Q459.52 16.74 459.52 14.94L459.52 14.94Q459.52 13.12 460.50 11.60Q461.47 10.08 463.47 9.17Q465.47 8.26 468.54 8.26L468.54 8.26Q470.56 8.26 472.54 8.77Q474.53 9.28 476 10.24L476 10.24L474.69 13.47Q473.18 12.58 471.58 12.14Q469.98 11.71 468.51 11.71L468.51 11.71Q466.78 11.71 465.71 12.13Q464.64 12.54 464.14 13.22Q463.65 13.89 463.65 14.75L463.65 14.75Q463.65 15.78 464.37 16.40Q465.09 17.02 466.26 17.38Q467.42 17.73 468.86 18.06Q470.30 18.40 471.73 18.82Q473.15 19.23 474.32 19.90Q475.49 20.58 476.21 21.73Q476.93 22.88 476.93 24.64L476.93 24.64Q476.93 26.43 475.95 27.95Q474.98 29.47 472.96 30.38Q470.94 31.30 467.87 31.30Z" />
+                </g>
+              </svg>
+            </svg>
+          </div>
+          <div class="hero-content">
+            <h1>
+              <span class="highlight">Professional Tech Services</span> You Can Trust
+            </h1>
+            <p>Expert computer repair, optimization, and technology solutions by a certified technician serving Saint John and Fredericton, NB with 15+ years of experience.</p>
             <div class="cta-buttons">
-                <a href="quote.html" class="btn btn-primary">Get Free Quote</a>
-                <a href="tel:506-343-5626" class="btn cta-contact-btn">Call (506) 343-5626</a>
+              <a href="quote.html" class="btn btn-primary">Get Free Quote</a>
+              <a href="services.html" class="btn btn-secondary">View Services</a>
             </div>
+          </div>
         </div>
+      </div>
     </section>
-
-    <footer>
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-section">
-                    <h4>Contact Info</h4>
-                    <p>Saint John & Fredericton, NB</p>
-                    <a href="tel:506-343-5626">(506) 343-5626</a>
-                    <a href="mailto:michael@lambwarerepairs.com">michael@lambwarerepairs.com</a>
-                </div>
-                <div class="footer-section">
-                    <h4>Why Choose Lambware</h4>
-                    <p>15+ Years Experience</p>
-                    <p>Certified Expertise</p>
-                    <p>30-Day Warranty</p>
-                    <p>Transparent Pricing</p>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <p>&copy; 2025 Lambware Repairs. All rights reserved. | Licensed & Insured</p>
-            </div>
+    <section id="stats" class="stats">. <div class="container">
+        <div class="stats-grid">
+          <div class="stat-item">
+            <span class="stat-number">15+</span>
+            <span class="stat-label">Years Experience</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-number">Custom</span>
+            <span class="stat-label">Solutions</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-number">Local</span>
+            <span class="stat-label">Expert</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-number">1-on-1</span>
+            <span class="stat-label">Personal Service</span>
+          </div>
         </div>
+      </div>
+    </section>
+    <section id="process" class="process-steps">
+      <div class="container">
+        <div class="section-header">
+          <h2 class="section-title">Our Simple Process</h2>
+          <p class="section-subtitle">Getting your tech fixed has never been easier with my streamlined 4-step process</p>
+        </div>
+        <div class="steps-grid">
+          <div class="step-card">
+            <div class="step-number">1</div>
+            <h3>Diagnose</h3>
+            <p>Free comprehensive diagnostic to identify the root cause of your tech issues</p>
+          </div>
+          <div class="step-card">
+            <div class="step-number">2</div>
+            <h3>Quote</h3>
+            <p>Transparent pricing with detailed explanation of required work and realistic timeframe</p>
+          </div>
+          <div class="step-card">
+            <div class="step-number">3</div>
+            <h3>Work & Optimize</h3>
+            <p>I personally handle all repairs and optimizations using quality parts and proven techniques</p>
+          </div>
+          <div class="step-card">
+            <div class="step-number">4</div>
+            <h3>Test & Deliver</h3>
+            <p>Thorough testing and benchmarking ensures everything works perfectly before I return your device</p>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section id="services" class="services">
+      <div class="container">
+        <div class="section-header">
+          <h2 class="section-title">Expert Services</h2>
+          <p class="section-subtitle">Comprehensive technology solutions designed to keep your devices running at peak performance</p>
+        </div>
+        <div class="services-grid">
+          <div class="service-card">
+            <div class="service-icon">🔧</div>
+            <h3>Computer Repair & Diagnostics</h3>
+            <p>Complete hardware and software repair services with advanced diagnostic techniques</p>
+            <ul class="service-features">
+              <li>Hardware diagnostics & replacement</li>
+              <li>Software troubleshooting</li>
+              <li>System optimization</li>
+              <li>Virus & malware removal</li>
+            </ul>
+          </div>
+          <div class="service-card">
+            <div class="service-icon">⚡</div>
+            <h3>Performance Optimization</h3>
+            <p>Maximize your system's performance with professional overclocking and tuning</p>
+            <ul class="service-features">
+              <li>CPU & GPU overclocking</li>
+              <li>Memory optimization</li>
+              <li>Thermal management</li>
+              <li>Benchmark testing</li>
+            </ul>
+          </div>
+          <div class="service-card">
+            <div class="service-icon">📱</div>
+            <h3>Mobile Device Services</h3>
+            <p>Professional repair and setup services for smartphones and tablets</p>
+            <ul class="service-features">
+              <li>Screen replacements</li>
+              <li>Battery service</li>
+              <li>Software troubleshooting</li>
+              <li>Data migration</li>
+            </ul>
+          </div>
+          <div class="service-card">
+            <div class="service-icon">🔒</div>
+            <h3>Data & Security Solutions</h3>
+            <p>Protect and recover your valuable data with enterprise-grade solutions</p>
+            <ul class="service-features">
+              <li>Data recovery services</li>
+              <li>Backup solutions</li>
+              <li>Cybersecurity setup</li>
+              <li>Privacy protection</li>
+            </ul>
+          </div>
+          <div class="service-card">
+            <div class="service-icon">🌐</div>
+            <h3>Network & Connectivity</h3>
+            <p>Home and office network setup and optimization for reliable connectivity</p>
+            <ul class="service-features">
+              <li>Wi-Fi setup & optimization</li>
+              <li>Network security</li>
+              <li>Router configuration</li>
+              <li>Connectivity troubleshooting</li>
+            </ul>
+          </div>
+          <div class="service-card">
+            <div class="service-icon">💼</div>
+            <h3>Business IT Support</h3>
+            <p>Comprehensive IT solutions tailored for small businesses and professionals</p>
+            <ul class="service-features">
+              <li>On-site support</li>
+              <li>System maintenance</li>
+              <li>Technology consulting</li>
+              <li>Equipment recommendations</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="why-choose">
+      <div class="container">
+        <div class="section-header">
+          <h2 class="section-title">Why Choose Lambware Repairs</h2>
+          <p class="section-subtitle">Experience the difference of working with a trusted local technology expert</p>
+        </div>
+        <div class="benefits-grid">
+          <div class="benefit-card">
+            <div class="benefit-icon">🎓</div>
+            <h4>Certified Expertise</h4>
+            <p>15+ years of experience with certifications from Cisco & Genesys Cloud, plus background in AI development.</p>
+          </div>
+          <div class="benefit-card">
+            <div class="benefit-icon">🏠</div>
+            <h4>Local Service</h4>
+            <p>Based in Saint John & Fredericton, NB. We understand local needs and provide personalized service.</p>
+          </div>
+          <div class="benefit-card">
+            <div class="benefit-icon">💰</div>
+            <h4>Transparent Pricing</h4>
+            <p>No hidden fees or surprise charges. Clear, upfront pricing with detailed quotes before any work begins.</p>
+          </div>
+          <div class="benefit-card">
+            <div class="benefit-icon">🛡️</div>
+            <h4>30-Day Warranty</h4>
+            <p>All repairs come with a comprehensive 30-day warranty for your peace of mind.</p>
+          </div>
+          <div class="benefit-card">
+            <div class="benefit-icon">⚡</div>
+            <h4>Fast Turnaround</h4>
+            <p>Most repairs completed within 24-48 hours. Emergency and rush services available when needed.</p>
+          </div>
+          <div class="benefit-card">
+            <div class="benefit-icon">🔧</div>
+            <h4>Quality Parts</h4>
+            <p>We use only high-quality replacement parts and professional-grade tools for lasting repairs.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section id="about" class="about">
+      <div class="container">
+        <div class="section-header">
+          <h2 class="section-title">About Lambware Repairs</h2>
+          <p class="section-subtitle">Your trusted local technology expert with proven expertise and certifications</p>
+        </div>
+        <div class="about-content">
+          <div class="about-text">
+            <h3>Professional Expertise</h3>
+            <p>Hi, I'm Michael, the certified technician and developer behind Lambware Repairs. I'm dedicated to providing top-notch technology services that exceed your expectations. My mission is to ensure every device runs like new, using advanced diagnostic techniques and quality parts that protect your investment while delivering reliable results.</p>
+            <p>With a background in both hardware repair and software development, including work as an Artificial Intelligence developer, plus hands-on experience as a technician and advisor at Staples, Geek Squad, and McLean Micro here in the local area, I bring a unique perspective to solving complex tech problems.</p>
+            <p>Whether you're a gamer needing performance optimization or a business owner requiring reliable IT support, I have the expertise and tools to get your technology working perfectly. I take pride in personal service and building lasting relationships with my clients in Saint John and Fredericton.</p>
+          </div>
+          <div class="about-image"> 🛠️ </div>
+        </div>
+      </div>
+    </section>
+    <section id="contact" class="cta-section">
+      <div class="container">
+        <h2>Ready to Fix Your Tech Problems?</h2>
+        <p>Get professional service with transparent pricing and a 30-day warranty</p>
+        <div class="cta-buttons">
+          <a href="quote.html" class="btn btn-primary">Get Free Quote</a>
+          <a href="tel:506-343-5626" class="btn cta-contact-btn">Call (506) 343-5626</a>
+        </div>
+      </div>
+    </section>
+    <footer>
+      <div class="container">
+        <div class="footer-content">
+          <div class="footer-section">
+            <h4>Contact Info</h4>
+            <p>Saint John & Fredericton, NB</p>
+            <a href="tel:506-343-5626">(506) 343-5626</a>
+            <a href="mailto:michael@lambwarerepairs.com">michael@lambwarerepairs.com</a>
+          </div>
+          <div class="footer-section">
+            <h4>Why Choose Lambware</h4>
+            <p>15+ Years Experience</p>
+            <p>Certified Expertise</p>
+            <p>30-Day Warranty</p>
+            <p>Transparent Pricing</p>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <p>&copy; 2025 Lambware Repairs. All rights reserved. | Licensed & Insured</p>
+        </div>
+      </div>
     </footer>
-
     <script>
-        window.addEventListener('load', function() {
-            setTimeout(function() {
-                const loadingScreen = document.getElementById('loadingScreen');
-                loadingScreen.classList.add('fade-out');
+      window.addEventListener('load', function() {
+        setTimeout(function() {
+          const loadingScreen = document.getElementById('loadingScreen');
+          loadingScreen.classList.add('fade-out');
+          setTimeout(function() {
+            loadingScreen.style.display = 'none';
+          }, 500);
+        }, 3000);
+      });
 
-                setTimeout(function() {
-                    loadingScreen.style.display = 'none';
-                }, 500);
-            }, 3000);
-        });
-
-        function toggleMobileMenu() {
-            const mobileMenu = document.getElementById('mobileMenu');
-            mobileMenu.classList.toggle('active');
-        }
-
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
+      function toggleMobileMenu() {
+        const mobileMenu = document.getElementById('mobileMenu');
+        mobileMenu.classList.toggle('active');
+      }
+      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+          e.preventDefault();
+          const target = document.querySelector(this.getAttribute('href'));
+          if (target) {
+            target.scrollIntoView({
+              behavior: 'smooth',
+              block: 'start'
             });
+          }
         });
-
-        window.addEventListener('scroll', function() {
-            const header = document.querySelector('header');
-            if (window.scrollY > 100) {
-                header.style.backgroundColor = 'rgba(255, 255, 255, 0.95)';
-                header.style.backdropFilter = 'blur(10px)';
-            } else {
-                header.style.backgroundColor = '#ffffff';
-                header.style.backdropFilter = 'none';
+      });
+      window.addEventListener('scroll', function() {
+        const header = document.querySelector('header');
+        if (window.scrollY > 100) {
+          header.style.backgroundColor = 'rgba(255, 255, 255, 0.95)';
+          header.style.backdropFilter = 'blur(10px)';
+        } else {
+          header.style.backgroundColor = '#ffffff';
+          header.style.backdropFilter = 'none';
+        }
+      });
+      document.addEventListener('click', function(event) {
+        const mobileMenu = document.getElementById('mobileMenu');
+        const menuToggle = document.querySelector('.mobile-menu-toggle');
+        if (!mobileMenu.contains(event.target) && !menuToggle.contains(event.target)) {
+          mobileMenu.classList.remove('active');
+        }
+      });
+      document.addEventListener('DOMContentLoaded', function() {
+        const loadingScreen = document.querySelector('.loading-screen');
+        const htmlElement = document.documentElement;
+        if (sessionStorage.getItem('hasSeenAnimation')) {
+          if (loadingScreen) {
+            loadingScreen.style.display = 'none';
+          }
+          htmlElement.classList.remove('no-js');
+        } else {
+          // ftv
+          window.addEventListener('load', function() {
+            setTimeout(() => {
+              if (loadingScreen) {
+                loadingScreen.classList.add('fade-out');
+                sessionStorage.setItem('hasSeenAnimation', 'true');
+                setTimeout(() => {
+                  loadingScreen.style.display = 'none';
+                  htmlElement.classList.remove('no-js');
+                }, 500);
+              }
+            }, 2500); 
+          });
+        }
+      });
+      window.addEventListener('scroll', function() {
+        const header = document.querySelector('header');
+        if (window.scrollY > 50) {
+          header.classList.add('scrolled');
+        } else {
+          header.classList.remove('scrolled');
+        }
+      });
+      window.addEventListener('scroll', () => {
+        const sections = ['hero', 'stats', 'process', 'services', 'about'];
+        const dots = document.querySelectorAll('.dot');
+        let current = '';
+        sections.forEach(section => {
+          const element = document.getElementById(section);
+          if (element) {
+            const sectionTop = element.offsetTop;
+            if (pageYOffset >= sectionTop - 150) {
+              current = section;
             }
+          }
         });
-
-        document.addEventListener('click', function(event) {
-            const mobileMenu = document.getElementById('mobileMenu');
-            const menuToggle = document.querySelector('.mobile-menu-toggle');
-
-            if (!mobileMenu.contains(event.target) && !menuToggle.contains(event.target)) {
-                mobileMenu.classList.remove('active');
-            }
+        dots.forEach(dot => {
+          dot.classList.remove('active');
+          if (dot.getAttribute('href').includes(current)) {
+            dot.classList.add('active');
+          }
         });
+      });
     </script>
-</body>
+  </body>
 </html>
